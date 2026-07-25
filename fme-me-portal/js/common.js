@@ -1,0 +1,167 @@
+/* ============================================================
+ * FME-ME Portal v1.0 — Shared JS Utilities
+ * ============================================================ */
+
+const PHASE_COLORS = {
+  '新人基础': { color: '#43A047', tint: '#E8F5E9' },
+  'ME基础':   { color: '#1976D2', tint: '#E3F2FD' },
+  'ME进阶':   { color: '#FB8C00', tint: '#FFF3E0' },
+  'ME包装':   { color: '#8E24AA', tint: '#F3E5F5' },
+  'MERD':     { color: '#D81B60', tint: '#FCE4EC' },
+  'RD资料':   { color: '#00ACC1', tint: '#E0F7FA' },
+  '通识':     { color: '#7CB342', tint: '#F1F8E9' },
+  '报告':     { color: '#F9A825', tint: '#FFF8E1' },
+  '实操':     { color: '#F4511E', tint: '#FBE9E7' },
+};
+
+const STATUS_MAP = {
+  'active':    { class: 'active',    label: '活跃' },
+  'warning':    { class: 'warning',   label: '待办' },
+  'pending':    { class: 'pending',   label: '阻塞' },
+  'planning':   { class: 'planning',  label: '规划中' },
+};
+
+function getPhaseColor(phase) {
+  return PHASE_COLORS[phase] || { color: '#1F4E78', tint: '#E3F2FD' };
+}
+
+function getStatusInfo(status) {
+  return STATUS_MAP[status] || STATUS_MAP['planning'];
+}
+
+function getStatusDot(status) {
+  const info = getStatusInfo(status);
+  return `<span class="status-dot ${info.class}">${info.label}</span>`;
+}
+
+function getDomainColor(domains, domainId) {
+  const d = domains.domains.find(x => x.id === domainId);
+  return d ? d.color : '#1F4E78';
+}
+
+function getDomainTint(color) {
+  // Simple tint: lighten by mixing with white
+  return color + '20';
+}
+
+async function loadData() {
+  try {
+    const [statsRes, domainsRes, coursesRes, templatesRes] = await Promise.all([
+      fetch('data/stats.json'),
+      fetch('data/domains.json'),
+      fetch('data/courses.json'),
+      fetch('data/templates.json'),
+    ]);
+    if (!statsRes.ok || !domainsRes.ok || !coursesRes.ok || !templatesRes.ok) {
+      throw new Error('Failed to load one or more JSON files');
+    }
+    const stats = await statsRes.json();
+    const domains = await domainsRes.json();
+    const courses = await coursesRes.json();
+    const templates = await templatesRes.json();
+    return { stats, domains, courses, templates };
+  } catch (err) {
+    console.error('Load data failed:', err);
+    return null;
+  }
+}
+
+function renderTopNav(activePage) {
+  const nav = document.querySelector('.top-nav');
+  if (!nav) return;
+  const pages = [
+    { id: 'overview', href: 'index.html', label: '总览' },
+    { id: 'training', href: 'training.html', label: '培训' },
+    { id: 'templates', href: 'templates.html', label: '模板' },
+  ];
+  const links = pages.map(p =>
+    `<a href="${p.href}" class="${p.id === activePage ? 'active' : ''}">${p.label}</a>`
+  ).join('');
+  nav.innerHTML = `
+    <div class="brand">FME-ME 管理体系</div>
+    <nav class="nav-links">${links}</nav>
+    <div class="last-updated">v1.0 · 2026-07-25</div>
+  `;
+}
+
+function renderFooter() {
+  const footer = document.querySelector('.footer');
+  if (!footer) return;
+  footer.innerHTML = `
+    © 2026 Pegatron BU6 FME-ME ｜ 数据源：网络共享盘 ｜ 静态看板 v1.0
+  `;
+}
+
+function formatFileSize(bytes) {
+  if (!bytes || bytes < 0) return '—';
+  if (bytes < 1024) return bytes + ' B';
+  if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
+  return (bytes / (1024 * 1024)).toFixed(2) + ' MB';
+}
+
+function showSkeleton(container, count, cardClass) {
+  if (!container) return;
+  const cls = cardClass || 'skeleton-card';
+  const html = Array.from({ length: count }, () =>
+    `<div class="skeleton ${cls}"></div>`
+  ).join('');
+  container.innerHTML = html;
+}
+
+function showToast(message, duration) {
+  let toast = document.querySelector('.toast');
+  if (!toast) {
+    toast = document.createElement('div');
+    toast.className = 'toast';
+    document.body.appendChild(toast);
+  }
+  toast.textContent = message;
+  toast.classList.add('show');
+  setTimeout(() => toast.classList.remove('show'), duration || 1800);
+}
+
+async function copyToClipboard(text) {
+  try {
+    if (navigator.clipboard && window.isSecureContext) {
+      await navigator.clipboard.writeText(text);
+      return true;
+    }
+  } catch (e) {
+    // Fallback below
+  }
+  // Legacy fallback
+  try {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    const ok = document.execCommand('copy');
+    document.body.removeChild(ta);
+    return ok;
+  } catch (e2) {
+    return false;
+  }
+}
+
+function getUrlParam(name) {
+  const params = new URLSearchParams(window.location.search);
+  return params.get(name);
+}
+
+function escapeHtml(str) {
+  if (str == null) return '';
+  return String(str)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#039;');
+}
+
+function truncate(str, maxLen) {
+  if (!str) return '';
+  if (str.length <= maxLen) return str;
+  return str.slice(0, maxLen) + '...';
+}

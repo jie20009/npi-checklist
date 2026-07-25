@@ -1,0 +1,197 @@
+/* ============================================================
+ * FME-ME Portal v1.0 — Training Page Logic
+ * ============================================================ */
+
+let allCourses = [];
+let activePhases = new Set();
+let activeExam = '';
+let searchKeyword = '';
+
+document.addEventListener('DOMContentLoaded', async () => {
+  renderTopNav('training');
+  renderFooter();
+
+  const grid = document.getElementById('course-grid');
+  showSkeleton(grid, 9, 'course-card');
+
+  const data = await loadData();
+  if (!data) {
+    grid.innerHTML = '<div class="error">数据加载失败</div>';
+    return;
+  }
+
+  allCourses = data.courses.courses;
+  renderPhasePills();
+  renderSidebarFilters();
+  renderCourses();
+
+  // Wire events
+  document.getElementById('search-input').addEventListener('input', e => {
+    searchKeyword = e.target.value.trim().toLowerCase();
+    renderCourses();
+  });
+  document.getElementById('clear-search').addEventListener('click', () => {
+    document.getElementById('search-input').value = '';
+    searchKeyword = '';
+    activePhases.clear();
+    activeExam = '';
+    renderSidebarFilters();
+    renderPhasePills();
+    renderCourses();
+  });
+});
+
+function renderPhasePills() {
+  const phases = [...new Set(allCourses.map(c => c.phase))];
+  const counts = {};
+  allCourses.forEach(c => { counts[c.phase] = (counts[c.phase] || 0) + 1; });
+
+  const container = document.getElementById('phase-pills');
+  container.innerHTML = phases.map(p => {
+    const pc = getPhaseColor(p);
+    const active = activePhases.has(p);
+    return `
+      <button class="phase-pill ${active ? 'active' : ''}"
+              style="--phase-color:${pc.color};--phase-tint:${pc.tint};"
+              data-phase="${escapeHtml(p)}">
+        ${escapeHtml(p)} <span class="count">${counts[p]}</span>
+      </button>
+    `;
+  }).join('');
+
+  container.querySelectorAll('.phase-pill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const p = btn.dataset.phase;
+      if (activePhases.has(p)) activePhases.delete(p);
+      else activePhases.add(p);
+      renderPhasePills();
+      renderSidebarFilters();
+      renderCourses();
+    });
+  });
+}
+
+function renderSidebarFilters() {
+  const phases = [...new Set(allCourses.map(c => c.phase))];
+  const counts = {};
+  allCourses.forEach(c => { counts[c.phase] = (counts[c.phase] || 0) + 1; });
+
+  const phaseBox = document.getElementById('phase-filter');
+  phaseBox.innerHTML = `
+    <div class="phase-item" data-phase="ALL" style="${activePhases.size === 0 ? 'font-weight:600;color:var(--primary);' : ''}">
+      <div class="left">
+        <div class="color-dot" style="background:var(--primary);"></div>
+        <label>全部</label>
+      </div>
+      <span class="count">${allCourses.length}</span>
+    </div>
+    ${phases.map(p => {
+      const pc = getPhaseColor(p);
+      const active = activePhases.has(p);
+      return `
+      <div class="phase-item" data-phase="${escapeHtml(p)}" style="${active ? 'font-weight:600;color:var(--primary);' : ''}">
+        <div class="left">
+          <div class="color-dot" style="background:${pc.color};"></div>
+          <label>${escapeHtml(p)}</label>
+        </div>
+        <span class="count">${counts[p]}</span>
+      </div>
+    `;
+    }).join('')}
+  `;
+
+  phaseBox.querySelectorAll('.phase-item').forEach(item => {
+    item.addEventListener('click', () => {
+      const p = item.dataset.phase;
+      if (p === 'ALL') {
+        activePhases.clear();
+      } else {
+        if (activePhases.has(p)) activePhases.delete(p);
+        else activePhases.add(p);
+      }
+      renderSidebarFilters();
+      renderPhasePills();
+      renderCourses();
+    });
+  });
+
+  const exams = [...new Set(allCourses.map(c => c.exam_method || '未知').filter(Boolean))];
+  const examBox = document.getElementById('exam-filter');
+  examBox.innerHTML = `
+    <div class="phase-item" data-exam="" style="${!activeExam ? 'font-weight:600;color:var(--primary);' : ''}">
+      <div class="left"><label>全部</label></div>
+    </div>
+    ${exams.map(e => `
+      <div class="phase-item" data-exam="${escapeHtml(e)}" style="${activeExam === e ? 'font-weight:600;color:var(--primary);' : ''}">
+        <div class="left"><label>${escapeHtml(e)}</label></div>
+      </div>
+    `).join('')}
+  `;
+
+  examBox.querySelectorAll('.phase-item').forEach(item => {
+    item.addEventListener('click', () => {
+      activeExam = item.dataset.exam || '';
+      renderSidebarFilters();
+      renderCourses();
+    });
+  });
+}
+
+function renderCourses() {
+  const filtered = allCourses.filter(c => {
+    if (activePhases.size > 0 && !activePhases.has(c.phase)) return false;
+    if (activeExam && (c.exam_method || '') !== activeExam) return false;
+    if (searchKeyword) {
+      const hay = `${c.title || ''} ${c.path || ''} ${c.course_id || ''}`.toLowerCase();
+      if (!hay.includes(searchKeyword)) return false;
+    }
+    return true;
+  });
+
+  const meta = document.getElementById('result-meta');
+  meta.textContent = `共 ${filtered.length} 门课程`;
+
+  const grid = document.getElementById('course-grid');
+  if (filtered.length === 0) {
+    grid.innerHTML = '<div class="empty-state"><div class="icon">📭</div><div class="text">无匹配课程</div></div>';
+    return;
+  }
+
+  grid.innerHTML = filtered.map(c => {
+    const pc = getPhaseColor(c.phase);
+    const path = c.path || '';
+    return `
+      <div class="course-card" style="--phase-color:${pc.color};--phase-tint:${pc.tint};">
+        <div class="header">
+          <div class="title-row">
+            <span class="course-id">${escapeHtml(c.course_id || '')}</span>
+            <span class="title">${escapeHtml(c.title || '无标题')}</span>
+            <span class="phase-tag">${escapeHtml(c.phase)}</span>
+          </div>
+        </div>
+        <div class="meta">
+          <span class="meta-item">⏱ ${c.duration_hours ? c.duration_hours + 'h' : (c.duration || '—')}</span>
+          <span class="meta-item">📝 ${escapeHtml(c.exam_method || '—')}</span>
+          ${c.pass_criteria ? `<span class="meta-item">✓ ${escapeHtml(c.pass_criteria)}</span>` : ''}
+        </div>
+        <div class="path-row">
+          <span class="path-text">${escapeHtml(path)}</span>
+          <button class="copy-btn" data-path="${escapeHtml(path)}">复制路径</button>
+        </div>
+      </div>
+    `;
+  }).join('');
+
+  grid.querySelectorAll('.copy-btn').forEach(btn => {
+    btn.addEventListener('click', async () => {
+      const ok = await copyToClipboard(btn.dataset.path);
+      if (ok) {
+        btn.classList.add('copied');
+        btn.textContent = '已复制';
+        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '复制路径'; }, 1500);
+      } else {
+        showToast('复制失败', 1500);
+      }
+    });
+  });
+}

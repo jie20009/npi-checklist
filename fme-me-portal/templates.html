@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>管理模板库 — FME-ME</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-nav"></header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>管理模板库</h1>
+      <div class="subtitle">24 个模板 · 13 个管理域</div>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" id="tpl-search" placeholder="搜索模板名称或用途…" class="search-input">
+      <select id="tpl-domain-filter" class="select-input">
+        <option value="">全部管理域</option>
+      </select>
+      <select id="tpl-type-filter" class="select-input">
+        <option value="">全部类型</option>
+        <option value="xlsx">Excel</option>
+        <option value="docx">Word</option>
+        <option value="md">Markdown</option>
+      </select>
+    </div>
+
+    <div class="result-meta" id="tpl-result-meta">加载中…</div>
+
+    <div class="template-table-wrap">
+      <table class="template-table">
+        <thead>
+          <tr>
+            <th>编号</th>
+            <th>名称</th>
+            <th>管理域</th>
+            <th>类型</th>
+            <th>用途</th>
+            <th>大小</th>
+            <th>操作</th>
+          </tr>
+        </thead>
+        <tbody id="tpl-tbody"></tbody>
+      </table>
+    </div>
+  </main>
+
+  <footer class="footer"></footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/templates.js"></script>
+</body>
+</html>

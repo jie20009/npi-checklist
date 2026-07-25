@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>培训课程目录 — FME-ME</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-nav"></header>
+
+  <main class="container">
+    <div class="page-header">
+      <h1>培训课程目录</h1>
+      <div class="subtitle">73 门课程 · 9 个阶段 · 199.5 小时</div>
+    </div>
+
+    <div class="toolbar">
+      <input type="search" id="search-input" placeholder="搜索课程标题或路径…" class="search-input">
+      <button id="clear-search" class="btn-secondary">清空</button>
+    </div>
+
+    <div class="phase-pills" id="phase-pills"></div>
+
+    <div class="training-layout">
+      <aside class="training-filter" id="filter-sidebar">
+        <h3>阶段筛选</h3>
+        <div id="phase-filter"></div>
+        <h3 class="mt-4">考核方式</h3>
+        <div id="exam-filter"></div>
+      </aside>
+
+      <section>
+        <div class="result-meta" id="result-meta">加载中…</div>
+        <div class="course-list" id="course-grid"></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="footer"></footer>
+
+  <script src="js/common.js"></script>
+  <script src="js/training.js"></script>
+</body>
+</html>

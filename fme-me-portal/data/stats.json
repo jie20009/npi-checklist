@@ -1,0 +1,66 @@
+{
+  "total_courses": 73,
+  "total_hours": 199.5,
+  "total_templates": 24,
+  "total_domains": 13,
+  "courses_by_phase": {
+    "新人基础": 8,
+    "ME基础": 8,
+    "ME进阶": 29,
+    "ME包装": 4,
+    "MERD": 5,
+    "RD资料": 4,
+    "通识": 5,
+    "报告": 3,
+    "实操": 7
+  },
+  "hours_by_phase": {
+    "新人基础": 11.5,
+    "ME基础": 16.0,
+    "ME进阶": 84.5,
+    "ME包装": 10.0,
+    "MERD": 20.0,
+    "RD资料": 16.0,
+    "通识": 4.5,
+    "报告": 9.0,
+    "实操": 28.0
+  },
+  "templates_by_type": {
+    "md": 3,
+    "xlsx": 17,
+    "docx": 4
+  },
+  "templates_prefilled_count": 12,
+  "templates_blank_count": 12,
+  "templates_by_domain": {
+    "M01": 2,
+    "M02": 1,
+    "M03": 2,
+    "M04": 2,
+    "M05": 2,
+    "M06": 2,
+    "M07": 3,
+    "M08": 3,
+    "M09": 1,
+    "M10": 1,
+    "M11": 2,
+    "M12": 1,
+    "M13": 2
+  },
+  "domains_status": {
+    "M01": "planning",
+    "M02": "planning",
+    "M03": "planning",
+    "M04": "planning",
+    "M05": "planning",
+    "M06": "planning",
+    "M07": "active",
+    "M08": "planning",
+    "M09": "planning",
+    "M10": "planning",
+    "M11": "planning",
+    "M12": "planning",
+    "M13": "planning"
+  },
+  "last_updated": "2026-07-25"
+}
