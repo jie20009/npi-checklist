@@ -1,0 +1,82 @@
+{
+  "template_id": "T12",
+  "template_name": "IDL 新人训练计划",
+  "template_name_en": "IDL New Hire Training Plan",
+  "merge_strategy": "append",
+  "primary_key": "",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "新人入职 1 月内完成基础 W1-W4；2 月内完成全部",
+  "sheet_name": "IDL新人训练计划",
+  "fields": [
+    {
+      "name": "周次",
+      "label": "周次",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "主题",
+      "label": "主题",
+      "type": "text",
+      "label_en": "Topic",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "name": "资料路径",
+      "label": "资料路径",
+      "type": "textarea",
+      "width": "full"
+    },
+    {
+      "name": "时长",
+      "label": "时长",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "考核方式",
+      "label": "考核方式",
+      "type": "select",
+      "options": [
+        "笔试",
+        "实操",
+        "笔试+实操",
+        "免试"
+      ],
+      "width": "half"
+    },
+    {
+      "name": "通过标准",
+      "label": "通过标准",
+      "type": "select",
+      "options": [
+        "≥80 分",
+        "≥90 分",
+        "通过",
+        "≥70 分"
+      ],
+      "width": "half"
+    },
+    {
+      "name": "讲师",
+      "label": "讲师",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "完成日",
+      "label": "完成日",
+      "type": "date",
+      "label_en": "Due Date",
+      "width": "third"
+    },
+    {
+      "name": "签字",
+      "label": "签字",
+      "type": "date",
+      "width": "third"
+    }
+  ]
+}

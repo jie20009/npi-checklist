@@ -1338,3 +1338,747 @@ input {
   color: white;
   border-color: var(--status-active);
 }
+
+/* ============ Fill Button (v2.0 templates page) ============ */
+.fill-btn {
+  display: inline-block;
+  font-size: 11px;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--status-active);
+  color: white;
+  border: 1px solid var(--status-active);
+  text-decoration: none;
+  transition: all var(--t-fast);
+  white-space: nowrap;
+}
+
+.fill-btn:hover {
+  background: #0D9F6E;
+  border-color: #0D9F6E;
+  color: white;
+  transform: translateY(-1px);
+  box-shadow: var(--shadow-sm);
+}
+
+.fillable-badge {
+  display: inline-block;
+  font-size: 10px;
+  margin-left: 4px;
+  color: var(--status-active);
+  cursor: help;
+}
+
+.fillable-count {
+  color: var(--status-active);
+  font-weight: 600;
+}
+
+/* ============================================================
+ * v2.0 — Form Page Styles
+ * ============================================================ */
+
+/* ============ Form Breadcrumb ============ */
+.form-breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+}
+
+.form-breadcrumb a {
+  color: var(--primary);
+}
+
+.form-breadcrumb .crumb-sep {
+  color: var(--text-light);
+}
+
+.form-breadcrumb #breadcrumb-tid {
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-weight: 600;
+  color: var(--text);
+}
+
+/* ============ Form Header ============ */
+.form-header {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.form-header h1 {
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-1);
+}
+
+.form-header .form-meta {
+  display: flex;
+  gap: var(--space-4);
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: var(--space-2);
+  flex-wrap: wrap;
+}
+
+.form-header .form-meta .meta-item {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-header .form-meta .meta-item .label {
+  color: var(--text-light);
+}
+
+.form-header .form-meta .meta-item .value {
+  color: var(--text);
+  font-weight: 500;
+}
+
+.form-header .form-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-top: var(--space-3);
+  padding-top: var(--space-3);
+  border-top: 1px dashed var(--border);
+  line-height: 1.6;
+}
+
+.form-header .draft-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  padding: 3px 10px;
+  border-radius: 12px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  margin-left: var(--space-3);
+  vertical-align: middle;
+}
+
+.form-header .draft-badge.saved {
+  color: var(--status-active);
+  border-color: var(--status-active);
+  background: rgba(16,185,129,.08);
+}
+
+.form-header .draft-badge.dirty {
+  color: var(--status-warning);
+  border-color: var(--status-warning);
+  background: rgba(245,158,11,.08);
+}
+
+/* ============ Form Section ============ */
+.form-section {
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-5);
+  margin-bottom: var(--space-4);
+}
+
+.form-section h2 {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.form-section h2::before {
+  content: '';
+  width: 3px;
+  height: 14px;
+  background: var(--primary);
+  border-radius: 2px;
+}
+
+.form-section .section-hint {
+  font-size: 12px;
+  color: var(--text-light);
+  margin-top: 4px;
+}
+
+/* ============ Form Grid ============ */
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-4) var(--space-5);
+}
+
+.form-grid.cols-1 {
+  grid-template-columns: 1fr;
+}
+
+.form-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+/* ============ Form Field ============ */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.form-field.span-2 {
+  grid-column: span 2;
+}
+
+.form-field.span-3 {
+  grid-column: span 3;
+}
+
+.form-field.span-full {
+  grid-column: 1 / -1;
+}
+
+.form-field > label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.form-field > label .req {
+  color: var(--status-pending);
+  font-weight: 700;
+}
+
+.form-field > label .opt {
+  color: var(--text-light);
+  font-size: 11px;
+  font-weight: 400;
+}
+
+.form-field > input[type="text"],
+.form-field > input[type="number"],
+.form-field > input[type="date"],
+.form-field > select,
+.form-field > textarea {
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  color: var(--text);
+  outline: none;
+  transition: all var(--t-fast);
+  font-family: inherit;
+  width: 100%;
+}
+
+.form-field > input:focus,
+.form-field > select:focus,
+.form-field > textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.form-field > textarea {
+  resize: vertical;
+  min-height: 80px;
+  line-height: 1.6;
+}
+
+.form-field > .field-hint {
+  font-size: 11px;
+  color: var(--text-light);
+}
+
+.form-field > .field-error {
+  font-size: 11px;
+  color: var(--status-pending);
+}
+
+.form-field.invalid > input,
+.form-field.invalid > select,
+.form-field.invalid > textarea {
+  border-color: var(--status-pending);
+  background: rgba(239,68,68,.04);
+}
+
+/* Formula field — read-only display */
+.form-field.formula-field > input {
+  background: var(--bg);
+  color: var(--text-muted);
+  font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  font-size: 12px;
+}
+
+.form-field.formula-field > .field-hint::before {
+  content: 'Σ ';
+  font-weight: 700;
+  color: var(--primary);
+}
+
+/* ============ Repeatable Rows ============ */
+.repeatable-wrap {
+  grid-column: 1 / -1;
+}
+
+.repeatable-wrap > .repeatable-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: var(--space-3);
+}
+
+.repeatable-wrap > .repeatable-header h3 {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.repeatable-wrap > .repeatable-header .row-add-btn {
+  font-size: 12px;
+  padding: 4px 12px;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: white;
+  border: 1px solid var(--primary);
+  transition: all var(--t-fast);
+}
+
+.repeatable-wrap > .repeatable-header .row-add-btn:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.repeatable-rows {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.repeatable-row {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  background: var(--bg);
+  position: relative;
+}
+
+.repeatable-row .row-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: var(--space-3);
+  align-items: start;
+}
+
+.repeatable-row .row-grid.cols-3 {
+  grid-template-columns: repeat(3, 1fr);
+}
+
+.repeatable-row .row-grid.cols-4 {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.repeatable-row .row-index {
+  position: absolute;
+  top: -8px;
+  left: var(--space-3);
+  background: var(--primary);
+  color: white;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 1px 8px;
+  border-radius: 10px;
+}
+
+.repeatable-row .row-remove {
+  position: absolute;
+  top: var(--space-2);
+  right: var(--space-2);
+  font-size: 11px;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all var(--t-fast);
+}
+
+.repeatable-row .row-remove:hover {
+  background: var(--status-pending);
+  color: white;
+  border-color: var(--status-pending);
+}
+
+/* ============ Form Actions Bar (sticky) ============ */
+.form-actions-bar {
+  position: sticky;
+  bottom: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  padding: var(--space-3) var(--space-5);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+  box-shadow: var(--shadow-md);
+  margin-top: var(--space-4);
+}
+
+.form-actions-bar .left-status {
+  font-size: 12px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+}
+
+.form-actions-bar .left-status .save-indicator {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 10px;
+  background: var(--bg);
+  border: 1px solid var(--border);
+}
+
+.form-actions-bar .left-status .save-indicator.saved {
+  color: var(--status-active);
+  border-color: var(--status-active);
+}
+
+.form-actions-bar .left-status .save-indicator.dirty {
+  color: var(--status-warning);
+  border-color: var(--status-warning);
+}
+
+.form-actions-bar .right-actions {
+  display: flex;
+  gap: var(--space-3);
+}
+
+.form-actions-bar .btn-primary,
+.form-actions-bar .btn-ghost {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: all var(--t-fast);
+}
+
+.form-actions-bar .btn-primary {
+  background: var(--primary);
+  color: white;
+  border: 1px solid var(--primary);
+}
+
+.form-actions-bar .btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+.form-actions-bar .btn-primary:disabled {
+  background: var(--border-strong);
+  border-color: var(--border-strong);
+  cursor: not-allowed;
+}
+
+.form-actions-bar .btn-ghost {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.form-actions-bar .btn-ghost:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+/* ============ Submit Modal ============ */
+.submit-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+}
+
+.submit-modal.show {
+  display: flex;
+}
+
+.submit-modal .modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15,23,42,.5);
+  backdrop-filter: blur(2px);
+}
+
+.submit-modal .modal-card {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 92%;
+  max-width: 540px;
+  padding: var(--space-6);
+  z-index: 1;
+}
+
+.submit-modal .modal-card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-3);
+}
+
+.submit-modal .modal-card .modal-desc {
+  font-size: 13px;
+  color: var(--text-muted);
+  margin-bottom: var(--space-4);
+  line-height: 1.6;
+}
+
+.submit-modal .submit-steps {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+  margin-bottom: var(--space-4);
+}
+
+.submit-modal .submit-step {
+  display: flex;
+  gap: var(--space-3);
+  align-items: flex-start;
+  padding: var(--space-3);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg);
+}
+
+.submit-modal .submit-step .step-icon {
+  font-size: 18px;
+  flex-shrink: 0;
+}
+
+.submit-modal .submit-step .step-content {
+  flex: 1;
+}
+
+.submit-modal .submit-step .step-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+
+.submit-modal .submit-step .step-desc {
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.submit-modal .submit-step .step-action {
+  font-size: 12px;
+  color: var(--primary);
+  padding: 4px 10px;
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  border: 1px solid var(--primary);
+  cursor: pointer;
+  margin-top: 4px;
+}
+
+.submit-modal .submit-step .step-action:hover {
+  background: var(--primary);
+  color: white;
+}
+
+.submit-modal .submit-step.done {
+  border-color: var(--status-active);
+  background: rgba(16,185,129,.06);
+}
+
+.submit-modal .submit-step.done .step-icon {
+  color: var(--status-active);
+}
+
+.submit-modal .modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: var(--space-3);
+  margin-top: var(--space-4);
+}
+
+.submit-modal .modal-actions button {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  transition: all var(--t-fast);
+}
+
+.submit-modal .modal-actions .btn-close {
+  background: transparent;
+  color: var(--text-muted);
+  border: 1px solid var(--border);
+}
+
+.submit-modal .modal-actions .btn-close:hover {
+  color: var(--text);
+  border-color: var(--border-strong);
+}
+
+/* ============ Employee ID Modal ============ */
+.emp-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 300;
+  align-items: center;
+  justify-content: center;
+}
+
+.emp-modal .emp-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(15,23,42,.5);
+  backdrop-filter: blur(2px);
+}
+
+.emp-modal .emp-modal-card {
+  position: relative;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-lg);
+  width: 92%;
+  max-width: 420px;
+  padding: var(--space-6);
+  z-index: 1;
+}
+
+.emp-modal .emp-modal-card h2 {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: var(--space-2);
+}
+
+.emp-modal .emp-modal-card p {
+  font-size: 13px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin-bottom: var(--space-4);
+}
+
+.emp-modal .emp-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+
+.emp-modal .emp-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.emp-modal .emp-field label {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.emp-modal .emp-field label .req {
+  color: var(--status-pending);
+  font-weight: 700;
+}
+
+.emp-modal .emp-field input {
+  padding: 8px 12px;
+  font-size: 13px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  background: var(--bg-card);
+  outline: none;
+  transition: all var(--t-fast);
+}
+
+.emp-modal .emp-field input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px var(--primary-light);
+}
+
+.emp-modal .emp-modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: var(--space-5);
+}
+
+.emp-modal .emp-modal-actions .btn-primary {
+  padding: 8px 18px;
+  font-size: 13px;
+  font-weight: 500;
+  border-radius: var(--radius-sm);
+  background: var(--primary);
+  color: white;
+  border: 1px solid var(--primary);
+  transition: all var(--t-fast);
+}
+
+.emp-modal .emp-modal-actions .btn-primary:hover {
+  background: var(--primary-dark);
+  border-color: var(--primary-dark);
+}
+
+/* ============ Form Skeleton (extended) ============ */
+.form-loading .skeleton-line.long { width: 90%; }
+.form-loading .skeleton-line.medium { width: 60%; }
+.form-loading .skeleton-card { height: 180px; }
+
+/* ============ Responsive: Form ============ */
+@media (max-width: 639px) {
+  .form-grid,
+  .form-grid.cols-3 {
+    grid-template-columns: 1fr;
+  }
+
+  .form-field.span-2,
+  .form-field.span-3 {
+    grid-column: span 1;
+  }
+
+  .repeatable-row .row-grid,
+  .repeatable-row .row-grid.cols-3,
+  .repeatable-row .row-grid.cols-4 {
+    grid-template-columns: 1fr;
+  }
+
+  .form-actions-bar {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--space-3);
+  }
+
+  .form-actions-bar .right-actions {
+    flex-direction: column-reverse;
+  }
+
+  .form-actions-bar .btn-primary,
+  .form-actions-bar .btn-ghost {
+    width: 100%;
+  }
+}

@@ -1,0 +1,85 @@
+{
+  "template_id": "T18",
+  "template_name": "AI/AOI 汇总看板",
+  "template_name_en": "AI/AOI Dashboard",
+  "merge_strategy": "dedup",
+  "primary_key": "Line 产线",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "日检查 / 周汇总 / 月报告；失检率 = 失检数/检查数",
+  "sheet_name": "AI AOI汇总看板",
+  "fields": [
+    {
+      "name": "Line 产线",
+      "label": "Line 产线",
+      "type": "text",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "负责人",
+      "label": "负责人",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "本日检查数",
+      "label": "本日检查数",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "AOI 失检数",
+      "label": "AOI 失检数",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "失检率%",
+      "label": "失检率%",
+      "type": "formula",
+      "formula": "=D{row}/C{row}*100",
+      "width": "half"
+    },
+    {
+      "name": "误判数",
+      "label": "误判数",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "误判率%",
+      "label": "误判率%",
+      "type": "formula",
+      "formula": "=F{row}/C{row}*100",
+      "width": "half"
+    },
+    {
+      "name": "上次校验日",
+      "label": "上次校验日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "状态",
+      "label": "状态",
+      "type": "select",
+      "label_en": "Status",
+      "options": [
+        "进行中",
+        "已完成",
+        "暂停",
+        "取消",
+        "已关闭",
+        "已对策",
+        "已验证",
+        "待验证",
+        "验证中",
+        "已验证-有效",
+        "已验证-无效",
+        "复发"
+      ],
+      "width": "third"
+    }
+  ]
+}

@@ -1,0 +1,57 @@
+{
+  "template_id": "T19",
+  "template_name": "NPI Stage Gate 清单",
+  "template_name_en": "NPI Stage Gate",
+  "merge_strategy": "matrix",
+  "primary_key": "Gate",
+  "version": "1.0",
+  "form_mode": "single",
+  "notes": "每 Gate 前评审；必交文档齐全方可过 Gate",
+  "sheet_name": "NPI Stage Gate",
+  "fields": [
+    {
+      "name": "Gate",
+      "label": "Gate",
+      "type": "select",
+      "required": true,
+      "options": [
+        "G0",
+        "G1",
+        "G2",
+        "G3",
+        "G4"
+      ],
+      "width": "half"
+    },
+    {
+      "name": "阶段",
+      "label": "阶段",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "必交文档",
+      "label": "必交文档",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "评审人",
+      "label": "评审人",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "通过标准",
+      "label": "通过标准",
+      "type": "select",
+      "options": [
+        "≥80 分",
+        "≥90 分",
+        "通过",
+        "≥70 分"
+      ],
+      "width": "half"
+    }
+  ]
+}

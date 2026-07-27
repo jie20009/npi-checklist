@@ -1,0 +1,71 @@
+{
+  "template_id": "T09",
+  "template_name": "改善效果验证表",
+  "template_name_en": "Improvement Verification",
+  "merge_strategy": "append",
+  "primary_key": "改善 ID",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "每个改善完成后次月开始验证；持续 3 个月判定为有效",
+  "sheet_name": "改善效果验证",
+  "fields": [
+    {
+      "name": "改善 ID",
+      "label": "改善 ID",
+      "type": "text",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "name": "主题",
+      "label": "主题",
+      "type": "text",
+      "label_en": "Topic",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "name": "前指标",
+      "label": "前指标",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "后指标",
+      "label": "后指标",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "改善率%",
+      "label": "改善率%",
+      "type": "formula",
+      "formula": "=(C{row}-D{row})/C{row}*100",
+      "width": "half"
+    },
+    {
+      "name": "持续月份",
+      "label": "持续月份",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "失效月份",
+      "label": "失效月份",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "判定",
+      "label": "判定",
+      "type": "select",
+      "options": [
+        "有效",
+        "无效",
+        "失效",
+        "待判定"
+      ],
+      "width": "half"
+    }
+  ]
+}

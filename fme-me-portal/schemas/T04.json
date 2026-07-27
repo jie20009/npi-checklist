@@ -1,0 +1,106 @@
+{
+  "template_id": "T04",
+  "template_name": "日报",
+  "template_name_en": "Daily Report",
+  "merge_strategy": "append",
+  "primary_key": "",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "每班次一行；达成率=实际/计划；异常事件链接 T07 异常 ID",
+  "sheet_name": "日报",
+  "fields": [
+    {
+      "name": "日期",
+      "label": "日期",
+      "type": "date",
+      "label_en": "Date",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "班别",
+      "label": "班别",
+      "type": "select",
+      "label_en": "Shift",
+      "options": [
+        "白班",
+        "夜班",
+        "中班"
+      ],
+      "width": "third"
+    },
+    {
+      "name": "产线",
+      "label": "产线",
+      "type": "text",
+      "label_en": "Line",
+      "width": "third"
+    },
+    {
+      "name": "客户项目",
+      "label": "客户项目",
+      "type": "text",
+      "label_en": "Project",
+      "width": "third"
+    },
+    {
+      "name": "计划产出",
+      "label": "计划产出",
+      "type": "number",
+      "width": "third"
+    },
+    {
+      "name": "实际产出",
+      "label": "实际产出",
+      "type": "number",
+      "width": "third"
+    },
+    {
+      "name": "达成率%",
+      "label": "达成率%",
+      "type": "formula",
+      "label_en": "Achievement Rate",
+      "formula": "=G{row}/F{row}",
+      "width": "third"
+    },
+    {
+      "name": "不良数",
+      "label": "不良数",
+      "type": "number",
+      "width": "third"
+    },
+    {
+      "name": "不良率%",
+      "label": "不良率%",
+      "type": "formula",
+      "label_en": "Defect Rate",
+      "formula": "=H{row}/F{row}*100",
+      "width": "third"
+    },
+    {
+      "name": "FCI 数",
+      "label": "FCI 数",
+      "type": "number",
+      "width": "third"
+    },
+    {
+      "name": "SAT 数",
+      "label": "SAT 数",
+      "type": "number",
+      "width": "third"
+    },
+    {
+      "name": "异常事件 ID",
+      "label": "异常事件 ID",
+      "type": "text",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "当班 ME",
+      "label": "当班 ME",
+      "type": "text",
+      "width": "third"
+    }
+  ]
+}

@@ -1,0 +1,76 @@
+{
+  "template_id": "T21",
+  "template_name": "参考资源登记表",
+  "template_name_en": "Reference Resource Registry",
+  "merge_strategy": "dedup",
+  "primary_key": "资源名",
+  "version": "1.0",
+  "form_mode": "single",
+  "notes": "新资源入库登记；年度 review",
+  "sheet_name": "参考资源登记表",
+  "fields": [
+    {
+      "name": "资源名",
+      "label": "资源名",
+      "type": "text",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "name": "类别",
+      "label": "类别",
+      "type": "select",
+      "options": [
+        "文档",
+        "工具",
+        "网站",
+        "教程",
+        "其他"
+      ],
+      "width": "third"
+    },
+    {
+      "name": "Owner",
+      "label": "Owner",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "来源",
+      "label": "来源",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "入库日",
+      "label": "入库日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "版本",
+      "label": "版本",
+      "type": "text",
+      "label_en": "Version",
+      "width": "third"
+    },
+    {
+      "name": "最近 review 日",
+      "label": "最近 review 日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "使用次数",
+      "label": "使用次数",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "关联域",
+      "label": "关联域",
+      "type": "text",
+      "width": "half"
+    }
+  ]
+}

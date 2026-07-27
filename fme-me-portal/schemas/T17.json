@@ -1,0 +1,65 @@
+{
+  "template_id": "T17",
+  "template_name": "技术主题登记",
+  "template_name_en": "Technical Topics Registry",
+  "merge_strategy": "dedup",
+  "primary_key": "主题",
+  "version": "1.0",
+  "form_mode": "single",
+  "notes": "每主题设 1 名 Owner + 1 名 Backup",
+  "sheet_name": "技术主题登记",
+  "fields": [
+    {
+      "name": "主题",
+      "label": "主题",
+      "type": "text",
+      "label_en": "Topic",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "name": "Owner 责任人",
+      "label": "Owner 责任人",
+      "type": "text",
+      "label_en": "Owner",
+      "width": "third"
+    },
+    {
+      "name": "Backup 备份",
+      "label": "Backup 备份",
+      "type": "text",
+      "label_en": "Backup",
+      "width": "third"
+    },
+    {
+      "name": "资料路径",
+      "label": "资料路径",
+      "type": "textarea",
+      "width": "full"
+    },
+    {
+      "name": "关键文件清单",
+      "label": "关键文件清单",
+      "type": "textarea",
+      "width": "full"
+    },
+    {
+      "name": "最近更新日",
+      "label": "最近更新日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "关联培训",
+      "label": "关联培训",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "关联项目",
+      "label": "关联项目",
+      "type": "text",
+      "width": "half"
+    }
+  ]
+}

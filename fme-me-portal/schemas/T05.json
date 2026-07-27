@@ -1,0 +1,55 @@
+{
+  "template_id": "T05",
+  "template_name": "月度质量看板",
+  "template_name_en": "Monthly Quality Dashboard",
+  "merge_strategy": "dedup",
+  "primary_key": "维度+指标",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "每月 3 日前由质量 ME 汇总；趋势列填 ↑↓→",
+  "sheet_name": "月度质量看板",
+  "fields": [
+    {
+      "name": "维度",
+      "label": "维度",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "指标",
+      "label": "指标",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "目标",
+      "label": "目标",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "实际",
+      "label": "实际",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "趋势",
+      "label": "趋势",
+      "type": "select",
+      "options": [
+        "↑",
+        "↓",
+        "→"
+      ],
+      "width": "half"
+    },
+    {
+      "name": "责任人",
+      "label": "责任人",
+      "type": "text",
+      "label_en": "Owner",
+      "width": "half"
+    }
+  ]
+}

@@ -1,0 +1,77 @@
+{
+  "template_id": "T22",
+  "template_name": "设备点检表",
+  "template_name_en": "Equipment Check",
+  "merge_strategy": "append",
+  "primary_key": "",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "日点检 / 月保养 / 年校正；点检项按设备类型定制",
+  "sheet_name": "设备点检表",
+  "fields": [
+    {
+      "name": "设备 ID",
+      "label": "设备 ID",
+      "type": "text",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "名称",
+      "label": "名称",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "产线",
+      "label": "产线",
+      "type": "text",
+      "label_en": "Line",
+      "width": "third"
+    },
+    {
+      "name": "责任人",
+      "label": "责任人",
+      "type": "text",
+      "label_en": "Owner",
+      "width": "half"
+    },
+    {
+      "name": "点检频率",
+      "label": "点检频率",
+      "type": "select",
+      "options": [
+        "日",
+        "周",
+        "月",
+        "季",
+        "年"
+      ],
+      "width": "third"
+    },
+    {
+      "name": "点检项",
+      "label": "点检项",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "上次点检日",
+      "label": "上次点检日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "下次点检日",
+      "label": "下次点检日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "维护记录链接",
+      "label": "维护记录链接",
+      "type": "textarea",
+      "width": "full"
+    }
+  ]
+}

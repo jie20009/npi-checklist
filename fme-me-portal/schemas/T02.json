@@ -1,0 +1,128 @@
+{
+  "template_id": "T02",
+  "template_name": "DRI 项目跟踪表",
+  "template_name_en": "DRI Project Tracking",
+  "merge_strategy": "dedup",
+  "primary_key": "项目代号",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "每个项目一行；DRI 唯一；每周一更新",
+  "sheet_name": "DRI项目跟踪表",
+  "fields": [
+    {
+      "name": "序号",
+      "label": "序号",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "项目代号",
+      "label": "项目代号",
+      "type": "text",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "客户名",
+      "label": "客户名",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "项目阶段",
+      "label": "项目阶段",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "DRI 负责人",
+      "label": "DRI 负责人",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "Backup 备份",
+      "label": "Backup 备份",
+      "type": "text",
+      "label_en": "Backup",
+      "width": "third"
+    },
+    {
+      "name": "立项日期",
+      "label": "立项日期",
+      "type": "date",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "当前 Milestone",
+      "label": "当前 Milestone",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "下个 Gate 日期",
+      "label": "下个 Gate 日期",
+      "type": "date",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "风险等级",
+      "label": "风险等级",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "上周进展",
+      "label": "上周进展",
+      "type": "textarea",
+      "width": "full"
+    },
+    {
+      "name": "本周计划",
+      "label": "本周计划",
+      "type": "textarea",
+      "width": "full"
+    },
+    {
+      "name": "阻塞项",
+      "label": "阻塞项",
+      "type": "textarea",
+      "width": "full"
+    },
+    {
+      "name": "文件完整度(子项/11)",
+      "label": "文件完整度(子项/11)",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "最近更新日",
+      "label": "最近更新日",
+      "type": "date",
+      "width": "third"
+    },
+    {
+      "name": "状态",
+      "label": "状态",
+      "type": "select",
+      "label_en": "Status",
+      "options": [
+        "进行中",
+        "已完成",
+        "暂停",
+        "取消",
+        "已关闭",
+        "已对策",
+        "已验证",
+        "待验证",
+        "验证中",
+        "已验证-有效",
+        "已验证-无效",
+        "复发"
+      ],
+      "width": "third"
+    }
+  ]
+}

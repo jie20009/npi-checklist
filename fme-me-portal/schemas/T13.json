@@ -1,0 +1,73 @@
+{
+  "template_id": "T13",
+  "template_name": "培训认证记录",
+  "template_name_en": "Training Certification",
+  "merge_strategy": "append",
+  "primary_key": "",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "每次培训完考核后登记；证书编号唯一",
+  "sheet_name": "培训认证记录",
+  "fields": [
+    {
+      "name": "工号",
+      "label": "工号",
+      "type": "text",
+      "label_en": "Employee ID",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "姓名",
+      "label": "姓名",
+      "type": "text",
+      "label_en": "Name",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "主题",
+      "label": "主题",
+      "type": "text",
+      "label_en": "Topic",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "name": "培训日",
+      "label": "培训日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "考核成绩",
+      "label": "考核成绩",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "讲师",
+      "label": "讲师",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "证书编号",
+      "label": "证书编号",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "有效期",
+      "label": "有效期",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "复训日",
+      "label": "复训日",
+      "type": "date",
+      "width": "third"
+    }
+  ]
+}

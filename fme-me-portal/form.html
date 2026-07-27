@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>填写表单 — FME-ME</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="top-nav"></header>
+
+  <main class="container">
+    <div class="form-breadcrumb">
+      <a href="templates.html">模板库</a>
+      <span class="crumb-sep">/</span>
+      <span id="breadcrumb-tid">…</span>
+    </div>
+
+    <div id="form-container">
+      <div class="form-loading">
+        <div class="skeleton skeleton-line long"></div>
+        <div class="skeleton skeleton-line medium"></div>
+        <div class="skeleton skeleton-card"></div>
+        <div class="skeleton skeleton-card"></div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer"></footer>
+
+  <!-- Employee ID Modal (shown on first visit) -->
+  <div id="emp-modal" class="emp-modal" style="display:none;">
+    <div class="emp-modal-backdrop"></div>
+    <div class="emp-modal-card">
+      <h2>请填写你的身份信息</h2>
+      <p>首次使用需要录入工号和姓名，之后会自动记忆。提交时会写入 xlsx 文件的元数据。</p>
+      <div class="emp-form">
+        <div class="emp-field">
+          <label for="emp-id-input">工号 <span class="req">*</span></label>
+          <input type="text" id="emp-id-input" placeholder="如 V24001708" autocomplete="off">
+        </div>
+        <div class="emp-field">
+          <label for="emp-name-input">姓名 <span class="req">*</span></label>
+          <input type="text" id="emp-name-input" placeholder="如 Lisa Chen" autocomplete="off">
+        </div>
+      </div>
+      <div class="emp-modal-actions">
+        <button type="button" id="emp-confirm" class="btn-primary">确认</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- SheetJS library (local copy, no CDN) -->
+  <script src="lib/xlsx.full.min.js"></script>
+  <!-- App scripts -->
+  <script src="js/common.js"></script>
+  <script src="js/form-engine.js"></script>
+  <script src="js/draft-manager.js"></script>
+  <script src="js/xlsx-export.js"></script>
+  <script src="js/submit-manager.js"></script>
+  <script>
+    document.addEventListener('DOMContentLoaded', async () => {
+      renderTopNav('templates');
+      renderFooter();
+
+      // Employee ID check
+      const profile = JSON.parse(localStorage.getItem('fme_employee_profile') || '{}');
+      if (!profile.employeeId || !profile.employeeName) {
+        EmpModal.show(() => initForm());
+      } else {
+        initForm();
+      }
+
+      async function initForm() {
+        // Get template ID from URL (?t=T07)
+        const params = new URLSearchParams(window.location.search);
+        const tid = params.get('t');
+        if (!tid) {
+          document.getElementById('form-container').innerHTML =
+            '<div class="error">缺少模板 ID 参数 (?t=T07)</div>';
+          return;
+        }
+        document.getElementById('breadcrumb-tid').textContent = tid;
+
+        try {
+          const schema = await FormEngine.loadSchema(tid);
+          const container = document.getElementById('form-container');
+          container.innerHTML = '';
+          FormEngine.renderForm(schema, container);
+          // Try restore draft
+          const restored = DraftManager.restoreDraft(tid);
+          if (!restored) {
+            showToast('新草稿 — 输入内容会自动保存', 2500);
+          }
+        } catch (e) {
+          document.getElementById('form-container').innerHTML =
+            '<div class="error">加载表单失败: ' + e.message + '</div>';
+        }
+      }
+    });
+
+    // Employee ID Modal helper
+    const EmpModal = {
+      show(onConfirm) {
+        const modal = document.getElementById('emp-modal');
+        modal.style.display = 'flex';
+        const confirm = document.getElementById('emp-confirm');
+        const idInput = document.getElementById('emp-id-input');
+        const nameInput = document.getElementById('emp-name-input');
+        idInput.focus();
+        const handler = () => {
+          const empId = idInput.value.trim();
+          const empName = nameInput.value.trim();
+          if (!empId || !empName) {
+            showToast('工号和姓名都必填', 2000);
+            return;
+          }
+          localStorage.setItem('fme_employee_profile', JSON.stringify({
+            employeeId: empId,
+            employeeName: empName,
+            savedAt: new Date().toISOString(),
+          }));
+          modal.style.display = 'none';
+          confirm.removeEventListener('click', handler);
+          onConfirm();
+        };
+        confirm.addEventListener('click', handler);
+      },
+    };
+  </script>
+</body>
+</html>

@@ -1,0 +1,78 @@
+{
+  "template_id": "T20",
+  "template_name": "NPI 工时表",
+  "template_name_en": "NPI Timesheet",
+  "merge_strategy": "append",
+  "primary_key": "",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "类别枚举：SOP 编写 / PFMEA / FA 测试 / 试产支持 / DFM / ECN / 培训 / 会议 / 其他",
+  "sheet_name": "NPI 工时表",
+  "fields": [
+    {
+      "name": "工号",
+      "label": "工号",
+      "type": "text",
+      "label_en": "Employee ID",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "项目",
+      "label": "项目",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "阶段",
+      "label": "阶段",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "日期",
+      "label": "日期",
+      "type": "date",
+      "label_en": "Date",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "工时",
+      "label": "工时",
+      "type": "number",
+      "width": "third"
+    },
+    {
+      "name": "工作类别",
+      "label": "工作类别",
+      "type": "select",
+      "options": [
+        "SOP 编写",
+        "PFMEA",
+        "FA 测试",
+        "试产支持",
+        "DFM",
+        "ECN",
+        "培训",
+        "会议",
+        "其他"
+      ],
+      "width": "half"
+    },
+    {
+      "name": "描述",
+      "label": "描述",
+      "type": "textarea",
+      "label_en": "Description",
+      "width": "full"
+    },
+    {
+      "name": "备注",
+      "label": "备注",
+      "type": "textarea",
+      "label_en": "Notes",
+      "width": "full"
+    }
+  ]
+}

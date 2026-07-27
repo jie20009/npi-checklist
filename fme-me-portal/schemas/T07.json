@@ -1,0 +1,139 @@
+{
+  "template_id": "T07",
+  "template_name": "异常登记台账",
+  "template_name_en": "Abnormal Registry",
+  "merge_strategy": "append",
+  "primary_key": "异常 ID",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "异常 ID 唯一(格式 EXYYYYMMDD-NNN)；24h 内登记；每条异常一行",
+  "fields": [
+    {
+      "name": "异常 ID",
+      "label": "异常 ID",
+      "label_en": "Abnormal ID",
+      "type": "text",
+      "required": true,
+      "placeholder": "EX20260725-001",
+      "hint": "格式: EX + YYYYMMDD + - + NNN (序号三位)",
+      "validation": {
+        "regex": "^EX\\d{8}-\\d{3}$",
+        "message": "异常 ID 格式应为 EXYYYYMMDD-NNN，如 EX20260725-001"
+      },
+      "width": "third"
+    },
+    {
+      "name": "日期",
+      "label": "发生日期",
+      "label_en": "Date",
+      "type": "date",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "等级",
+      "label": "异常等级",
+      "label_en": "Level",
+      "type": "select",
+      "required": true,
+      "options": ["L1", "L2", "L3", "L4"],
+      "hint": "L1=轻微 L2=一般 L3=严重 L4=重大",
+      "width": "third"
+    },
+    {
+      "name": "产线",
+      "label": "发生产线",
+      "label_en": "Line",
+      "type": "text",
+      "required": true,
+      "placeholder": "F5-5F / LCM-A / AOI-2",
+      "width": "third"
+    },
+    {
+      "name": "客户项目",
+      "label": "客户项目",
+      "label_en": "Customer/Project",
+      "type": "text",
+      "required": true,
+      "placeholder": "Fitbit / Google / Amazon",
+      "width": "third"
+    },
+    {
+      "name": "状态",
+      "label": "状态",
+      "label_en": "Status",
+      "type": "select",
+      "required": true,
+      "options": ["进行中", "已对策", "已验证", "已关闭", "暂停"],
+      "default": "进行中",
+      "width": "third"
+    },
+    {
+      "name": "现象描述",
+      "label": "现象描述",
+      "label_en": "Phenomenon",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "客观描述发生了什么，不带主观判断",
+      "width": "full"
+    },
+    {
+      "name": "5M1E 分析",
+      "label": "5M1E 分析",
+      "label_en": "5M1E Analysis",
+      "type": "textarea",
+      "placeholder": "人(Man)/机(Machine)/料(Material)/法(Method)/测(Measure)/环(Environment)",
+      "width": "full"
+    },
+    {
+      "name": "5Why 分析",
+      "label": "5Why 分析",
+      "label_en": "5Why Analysis",
+      "type": "textarea",
+      "placeholder": "Why 1: ...\nWhy 2: ...\nWhy 3: ...\nWhy 4: ...\nWhy 5: ...",
+      "width": "full"
+    },
+    {
+      "name": "临时对策",
+      "label": "临时对策",
+      "label_en": "Temporary Action",
+      "type": "textarea",
+      "required": true,
+      "placeholder": "24h 内临时遏制措施",
+      "width": "full"
+    },
+    {
+      "name": "永久对策",
+      "label": "永久对策",
+      "label_en": "Permanent Action",
+      "type": "textarea",
+      "placeholder": "根治措施（CAPA）",
+      "width": "full"
+    },
+    {
+      "name": "责任人",
+      "label": "责任人",
+      "label_en": "Owner",
+      "type": "text",
+      "required": true,
+      "placeholder": "负责人姓名",
+      "width": "third"
+    },
+    {
+      "name": "完成日",
+      "label": "完成日",
+      "label_en": "Due Date",
+      "type": "date",
+      "width": "third"
+    },
+    {
+      "name": "验证结果",
+      "label": "验证结果",
+      "label_en": "Verification",
+      "type": "select",
+      "options": ["待验证", "验证中", "已验证-有效", "已验证-无效", "复发"],
+      "default": "待验证",
+      "width": "third"
+    }
+  ]
+}

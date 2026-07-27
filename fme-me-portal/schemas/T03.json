@@ -1,0 +1,64 @@
+{
+  "template_id": "T03",
+  "template_name": "模板登记表",
+  "template_name_en": "Template Registry",
+  "merge_strategy": "dedup",
+  "primary_key": "模板编号",
+  "version": "1.0",
+  "form_mode": "single",
+  "notes": "所有模板统一登记；每半年 review 一次",
+  "sheet_name": "模板登记表",
+  "fields": [
+    {
+      "name": "序号",
+      "label": "序号",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "模板编号",
+      "label": "模板编号",
+      "type": "text",
+      "required": true,
+      "width": "half"
+    },
+    {
+      "name": "模板名称",
+      "label": "模板名称",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "版本",
+      "label": "版本",
+      "type": "text",
+      "label_en": "Version",
+      "width": "third"
+    },
+    {
+      "name": "Owner 责任人",
+      "label": "Owner 责任人",
+      "type": "text",
+      "label_en": "Owner",
+      "width": "third"
+    },
+    {
+      "name": "最近修订日",
+      "label": "最近修订日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "适用管理域",
+      "label": "适用管理域",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "文件路径",
+      "label": "文件路径",
+      "type": "text",
+      "width": "half"
+    }
+  ]
+}

@@ -1,0 +1,68 @@
+{
+  "template_id": "T23",
+  "template_name": "治具参数表",
+  "template_name_en": "Fixture Parameters",
+  "merge_strategy": "append",
+  "primary_key": "",
+  "version": "1.0",
+  "form_mode": "repeatable",
+  "notes": "每治具一行；参数项按治具类型定制；偏差超阈值须调整并记录",
+  "sheet_name": "治具参数表",
+  "fields": [
+    {
+      "name": "治具 ID",
+      "label": "治具 ID",
+      "type": "text",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "名称",
+      "label": "名称",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "适用产品",
+      "label": "适用产品",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "参数项",
+      "label": "参数项",
+      "type": "text",
+      "width": "half"
+    },
+    {
+      "name": "标准值",
+      "label": "标准值",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "实测值",
+      "label": "实测值",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "偏差",
+      "label": "偏差",
+      "type": "number",
+      "width": "half"
+    },
+    {
+      "name": "调整日",
+      "label": "调整日",
+      "type": "date",
+      "width": "half"
+    },
+    {
+      "name": "调整人",
+      "label": "调整人",
+      "type": "text",
+      "width": "third"
+    }
+  ]
+}

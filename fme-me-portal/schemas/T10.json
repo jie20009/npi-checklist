@@ -1,0 +1,147 @@
+{
+  "template_id": "T10",
+  "template_name": "ME 技能矩阵",
+  "template_name_en": "ME Skill Matrix",
+  "merge_strategy": "matrix",
+  "primary_key": "工号",
+  "version": "1.0",
+  "form_mode": "matrix_self",
+  "notes": "本人填写自己的技能等级；等级：0 未培训 / 1 了解 / 2 能执行 / 3 能独立处理 / 4 能教学",
+  "sheet_name": "ME技能矩阵",
+  "fields": [
+    {
+      "name": "工号",
+      "label": "工号",
+      "type": "text",
+      "label_en": "Employee ID",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "姓名",
+      "label": "姓名",
+      "type": "text",
+      "label_en": "Name",
+      "required": true,
+      "width": "third"
+    },
+    {
+      "name": "岗位",
+      "label": "岗位",
+      "type": "text",
+      "label_en": "Position",
+      "width": "third"
+    },
+    {
+      "name": "入职日",
+      "label": "入职日",
+      "type": "date",
+      "label_en": "Hire Date",
+      "width": "third"
+    },
+    {
+      "name": "螺丝起子",
+      "label": "螺丝起子",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "LCM 测试",
+      "label": "LCM 测试",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "Laser",
+      "label": "Laser",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "Dispensing",
+      "label": "Dispensing",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "取样",
+      "label": "取样",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "FA",
+      "label": "FA",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "PFMEA",
+      "label": "PFMEA",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "8D",
+      "label": "8D",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "ECN",
+      "label": "ECN",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "AOI",
+      "label": "AOI",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "SAP",
+      "label": "SAP",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "SolidWorks",
+      "label": "SolidWorks",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "5S",
+      "label": "5S",
+      "type": "text",
+      "width": "third"
+    },
+    {
+      "name": "培训时数",
+      "label": "培训时数",
+      "type": "number",
+      "width": "third"
+    },
+    {
+      "name": "认证等级",
+      "label": "认证等级",
+      "type": "select",
+      "options": [
+        "无",
+        "初级",
+        "中级",
+        "高级",
+        "专家"
+      ],
+      "width": "third"
+    },
+    {
+      "name": "备注",
+      "label": "备注",
+      "type": "textarea",
+      "label_en": "Notes",
+      "width": "full"
+    }
+  ]
+}
