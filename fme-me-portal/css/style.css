@@ -697,7 +697,8 @@ input {
 }
 
 .course-card .path-row .copy-btn,
-.course-card .path-row .expand-btn {
+.course-card .path-row .expand-btn,
+.course-card .path-row .open-btn {
   font-size: 11px;
   padding: 2px 8px;
   border-radius: var(--radius-sm);
@@ -709,7 +710,8 @@ input {
 }
 
 .course-card .path-row .copy-btn:hover,
-.course-card .path-row .expand-btn:hover {
+.course-card .path-row .expand-btn:hover,
+.course-card .path-row .open-btn:hover {
   background: var(--primary-light);
   border-color: var(--primary);
 }

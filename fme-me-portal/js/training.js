@@ -160,6 +160,7 @@ function renderCourses() {
   grid.innerHTML = filtered.map(c => {
     const pc = getPhaseColor(c.phase);
     const path = c.path || '';
+    const fileUrl = pathToFileUrl(path);
     return `
       <div class="course-card" style="--phase-color:${pc.color};--phase-tint:${pc.tint};">
         <div class="header">
@@ -176,6 +177,7 @@ function renderCourses() {
         </div>
         <div class="path-row">
           <span class="path-text">${escapeHtml(path)}</span>
+          ${fileUrl ? `<a href="${fileUrl}" class="open-btn" target="_blank" rel="noopener" title="点击打开文件（仅本地访问有效；在线版会被浏览器拦截，请改用「复制路径」）">📂 打开</a>` : ''}
           <button class="copy-btn" data-path="${escapeHtml(path)}">复制路径</button>
         </div>
       </div>
