@@ -165,3 +165,26 @@ function truncate(str, maxLen) {
   if (str.length <= maxLen) return str;
   return str.slice(0, maxLen) + '...';
 }
+
+/**
+ * Convert a Windows local path to a file:// URL for hyperlink use.
+ *   D:\path\file.md       → file:///D:/path/file.md
+ *   \\server\share\path   → file://server/share/path
+ * Returns '' if the input is not a recognized Windows absolute path,
+ * so callers can omit the "open" button when there is nothing to open.
+ *
+ * Note: clicking a file:// link from an https:// origin is blocked by
+ * browsers (mixed-content security). This only works when the portal
+ * is served from http://localhost or opened as a local file.
+ */
+function pathToFileUrl(p) {
+  if (!p) return '';
+  const norm = String(p).replace(/\\/g, '/');
+  if (norm.startsWith('//')) {
+    return 'file:' + encodeURI(norm);
+  }
+  if (/^[A-Za-z]:\//.test(norm)) {
+    return 'file:///' + encodeURI(norm);
+  }
+  return '';
+}

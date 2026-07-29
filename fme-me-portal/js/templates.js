@@ -93,6 +93,7 @@ function renderTemplates() {
     const typeIcon = { xlsx: '📊', docx: '📄', md: '📝' }[t.type] || '📁';
     const localPath = t.local_path || t.file || '';
     const isFillable = FORM_FILLABLE.has(t.id);
+    const fileUrl = pathToFileUrl(localPath);
     return `
       <tr>
         <td class="id-cell">
@@ -111,6 +112,7 @@ function renderTemplates() {
         <td>${formatFileSize(t.file_size)}</td>
         <td class="action-cell">
           ${isFillable ? `<a href="form.html?t=${encodeURIComponent(t.id)}" class="fill-btn">填写</a>` : ''}
+          ${fileUrl ? `<a href="${fileUrl}" class="open-btn" target="_blank" rel="noopener" title="点击打开文件（仅本地访问有效；在线版会被浏览器拦截，请改用「复制路径」）">📂 打开</a>` : ''}
           <button class="copy-btn" data-path="${escapeHtml(localPath)}">复制路径</button>
         </td>
       </tr>

@@ -1339,6 +1339,26 @@ input {
   border-color: var(--status-active);
 }
 
+/* ============ Open Button (v2.0 templates page — file:// hyperlink) ============ */
+.open-btn {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: var(--radius-sm);
+  color: var(--primary);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  transition: all var(--t-fast);
+  white-space: nowrap;
+  text-decoration: none;
+}
+
+.open-btn:hover {
+  background: var(--primary-light);
+  border-color: var(--primary);
+  text-decoration: none;
+}
+
 /* ============ Fill Button (v2.0 templates page) ============ */
 .fill-btn {
   display: inline-block;
