@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://jie20009.github.io/npi-checklist/fme-me-portal/sitemap.xml

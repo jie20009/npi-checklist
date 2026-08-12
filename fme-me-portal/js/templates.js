@@ -19,6 +19,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderTopNav('templates');
   renderFooter();
 
+  // Breadcrumb
+  const bcSlot = document.getElementById('breadcrumb-slot');
+  if (bcSlot) bcSlot.innerHTML = renderBreadcrumb([
+    { label: '首页', href: 'index.html' },
+    { label: '模板库', href: 'templates.html' }
+  ]);
+
   const tbody = document.getElementById('tpl-tbody');
   tbody.innerHTML = `<tr><td colspan="7" class="loading-row">加载中…</td></tr>`;
 
@@ -90,7 +97,7 @@ function renderTemplates() {
     const dColor = domain ? domain.color : '#1F4E78';
     const dTint = dColor + '20';
     const typeLabel = { xlsx: 'Excel', docx: 'Word', md: 'MD' }[t.type] || t.type;
-    const typeIcon = { xlsx: '📊', docx: '📄', md: '📝' }[t.type] || '📁';
+    const typeIcon = { xlsx: 'i-excel', docx: 'i-word', md: 'i-md' }[t.type] || 'i-file';
     const localPath = t.local_path || t.file || '';
     const isFillable = FORM_FILLABLE.has(t.id);
     const fileUrl = pathToFileUrl(localPath);
@@ -107,7 +114,7 @@ function renderTemplates() {
         <td>
           <span class="domain-badge" style="--domain-color:${dColor};--domain-tint:${dTint};">${escapeHtml(t.domain)}</span>
         </td>
-        <td class="type-cell">${typeIcon} ${typeLabel}</td>
+        <td class="type-cell"><svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#${typeIcon}"/></svg> ${typeLabel}</td>
         <td class="purpose-cell" title="${escapeHtml(t.purpose || '')}">${escapeHtml(t.purpose || '—')}</td>
         <td>${formatFileSize(t.file_size)}</td>
         <td class="action-cell">

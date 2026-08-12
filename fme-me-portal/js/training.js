@@ -11,6 +11,13 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderTopNav('training');
   renderFooter();
 
+  // Breadcrumb
+  const bcSlot = document.getElementById('breadcrumb-slot');
+  if (bcSlot) bcSlot.innerHTML = renderBreadcrumb([
+    { label: '首页', href: 'index.html' },
+    { label: '培训', href: 'training.html' }
+  ]);
+
   const grid = document.getElementById('course-grid');
   showSkeleton(grid, 9, 'course-card');
 
@@ -171,9 +178,9 @@ function renderCourses() {
           </div>
         </div>
         <div class="meta">
-          <span class="meta-item">⏱ ${c.duration_hours ? c.duration_hours + 'h' : (c.duration || '—')}</span>
-          <span class="meta-item">📝 ${escapeHtml(c.exam_method || '—')}</span>
-          ${c.pass_criteria ? `<span class="meta-item">✓ ${escapeHtml(c.pass_criteria)}</span>` : ''}
+          <span class="meta-item"><svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#i-clock"/></svg> ${c.duration_hours ? c.duration_hours + 'h' : (c.duration || '—')}</span>
+          <span class="meta-item"><svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#i-info"/></svg> ${escapeHtml(c.exam_method || '—')}</span>
+          ${c.pass_criteria ? `<span class="meta-item"><svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#i-check"/></svg> ${escapeHtml(c.pass_criteria)}</span>` : ''}
         </div>
         <div class="path-row">
           <span class="path-text">${escapeHtml(path)}</span>

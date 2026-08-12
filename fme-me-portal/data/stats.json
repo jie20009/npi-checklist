@@ -1,8 +1,10 @@
 {
+  "version": "v2.1",
   "total_courses": 73,
   "total_hours": 199.5,
   "total_templates": 24,
   "total_domains": 13,
+  "data_generated_at": "2026-07-25T00:00:00+08:00",
   "courses_by_phase": {
     "新人基础": 8,
     "ME基础": 8,
