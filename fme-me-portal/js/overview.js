@@ -8,11 +8,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   renderTopNav('overview');
   renderFooter();
 
-  // Breadcrumb
+  // Breadcrumb (i18n)
   const bcSlot = document.getElementById('breadcrumb-slot');
   if (bcSlot) bcSlot.innerHTML = renderBreadcrumb([
-    { label: '首页', href: 'index.html' },
-    { label: '总览', href: 'index.html' }
+    { label: t('breadcrumb.home', '首页'), href: 'index.html' },
+    { label: t('breadcrumb.overview', '总览'), href: 'index.html' }
   ]);
 
   // Recent views chips (if any)
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     if (recent.length > 0) {
       const rc = document.createElement('div');
       rc.className = 'recent-chips';
-      rc.innerHTML = `<span style="font-size:11px;color:var(--text-light);margin-right:4px;">最近:</span>` +
+      rc.innerHTML = `<span style="font-size:11px;color:var(--text-light);margin-right:4px;">${escapeHtml(t('recent.label', '最近'))}:</span>` +
         recent.map(r => `<a class="recent-chip" href="${r.href}"><svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#i-clock"/></svg>${escapeHtml(r.label)}</a>`).join('');
       bcSlot.appendChild(rc);
     }
@@ -37,16 +37,37 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const data = await loadData();
   if (!data) {
-    kpiGrid.innerHTML = '<div class="error">数据加载失败，请检查 data/*.json 文件</div>';
+    kpiGrid.innerHTML = '<div class="error">' + escapeHtml(t('error.data.load', '数据加载失败，请检查 data/*.json 文件')) + '</div>';
     domainGrid.innerHTML = '';
     typeStats.innerHTML = '';
     return;
   }
 
+  // Cache for i18n re-render
+  window.__overviewData = data;
   renderKPIs(data);
   renderDomains(data);
   renderTypeStats(data);
   renderDataFreshness(data);
+
+  // v2.1.1: re-render on language switch (data is cached, but it contains
+  // all language fields — re-rendering picks the right one based on I18n.current)
+  document.addEventListener('i18n:changed', async () => {
+    // Refresh breadcrumb (i18n)
+    const slot = document.getElementById('breadcrumb-slot');
+    if (slot) {
+      slot.innerHTML = renderBreadcrumb([
+        { label: t('breadcrumb.home', '首页'), href: 'index.html' },
+        { label: t('breadcrumb.overview', '总览'), href: 'index.html' }
+      ]);
+    }
+    if (window.__overviewData) {
+      renderKPIs(window.__overviewData);
+      renderDomains(window.__overviewData);
+      renderTypeStats(window.__overviewData);
+      renderDataFreshness(window.__overviewData);
+    }
+  });
 });
 
 function iconSvg(name) {
@@ -68,10 +89,10 @@ function renderKPIs(data) {
   const hourByPhase = Object.values(stats.hours_by_phase || {});
 
   const kpis = [
-    { label: '管理域', value: totalDomains, sub: `${activeDomains} 个活跃`, icon: 'i-dashboard', spark: domainCounts },
-    { label: '模板总数', value: totalTemplates, sub: 'xlsx · docx · md', icon: 'i-grid', spark: typeCounts },
-    { label: '课程总数', value: totalCourses, sub: '跨 9 个阶段', icon: 'i-book', spark: phaseCounts },
-    { label: '总课时(小时)', value: totalHours.toFixed(1), sub: '含实操与报告', icon: 'i-clock', spark: hourByPhase },
+    { label: t('kpi.domains', '管理域'), value: totalDomains, sub: t('kpi.domains.sub', '{N} 个活跃', { N: activeDomains }), icon: 'i-dashboard', spark: domainCounts },
+    { label: t('kpi.templates', '模板总数'), value: totalTemplates, sub: t('kpi.templates.sub', 'xlsx · docx · md'), icon: 'i-grid', spark: typeCounts },
+    { label: t('kpi.courses', '课程总数'), value: totalCourses, sub: t('kpi.courses.sub', '跨 9 个阶段'), icon: 'i-book', spark: phaseCounts },
+    { label: t('kpi.hours', '总课时(小时)'), value: totalHours.toFixed(1), sub: t('kpi.hours.sub', '含实操与报告'), icon: 'i-clock', spark: hourByPhase },
   ];
 
   document.getElementById('kpi-grid').innerHTML = kpis.map(k => `
@@ -111,26 +132,54 @@ function renderDomains(data) {
     tplCountByDomain[t.domain] = (tplCountByDomain[t.domain] || 0) + 1;
   });
 
+  const lang = (window.App && window.App.I18n) ? window.App.I18n.current : 'zh';
+  // Pick a localized name field. zh→name, en→name_en, vi→name_vi (fallback name_en).
+  const pickName = (d) => {
+    if (lang === 'en') return d.name_en || d.name || '';
+    if (lang === 'vi') return d.name_vi || d.name_en || d.name || '';
+    return d.name || d.name_en || '';
+  };
+  const pickDesc = (d) => {
+    // v2.1.1: only show description in the current language; if missing, show '—'
+    // (avoid showing Chinese description under an English UI)
+    if (lang === 'en') return d.description_en || '';
+    if (lang === 'vi') return d.description_vi || d.description_en || '';
+    return d.description || '';
+  };
+  // Sub-name (English alongside Chinese for bilingual readability)
+  // Only show sub-name in Chinese mode; in en/vi modes the main name is already localized.
+  const pickSubName = (d) => {
+    if (lang === 'zh' && d.name_en) return d.name_en;
+    return '';
+  };
+
+  const tbd = t('domain.tbd', '待定');
+  const lblTemplates = t('domain.templates_count', '模板');
+  const lblOwner = t('domain.owner', '负责人');
+  const lblBackup = t('domain.backup', '备份');
+
   document.getElementById('domain-grid').innerHTML = domains.domains.map(d => {
     const tplCount = tplCountByDomain[d.id] || 0;
-    const owners = d.owner && d.owner.length ? d.owner.join('、') : '待定';
+    const owners = d.owner && d.owner.length ? d.owner.join('、') : tbd;
+    const name = pickName(d);
+    const subName = pickSubName(d);
     return `
       <div class="domain-card" style="--domain-color:${d.color};">
         <div class="header">
           <div class="id-name">
             <div class="id">${escapeHtml(d.id)}</div>
-            <div class="name">${escapeHtml(d.name)}</div>
-            <div class="name-en">${escapeHtml(d.name_en || '')}</div>
+            <div class="name">${escapeHtml(name)}</div>
+            ${subName ? `<div class="name-en">${escapeHtml(subName)}</div>` : ''}
           </div>
           ${getStatusDot(d.status)}
         </div>
-        <div class="desc">${escapeHtml(d.description || '')}</div>
+        <div class="desc">${escapeHtml(pickDesc(d) || t('domain.desc.fallback', '—'))}</div>
         <div class="meta">
-          <div class="meta-item">${iconSvg('i-file')} 模板: <strong>${tplCount}</strong></div>
-          <div class="meta-item">${iconSvg('i-user')} 负责人: ${escapeHtml(owners)}</div>
+          <div class="meta-item">${iconSvg('i-file')} ${escapeHtml(lblTemplates)}: <strong>${tplCount}</strong></div>
+          <div class="meta-item">${iconSvg('i-user')} ${escapeHtml(lblOwner)}: ${escapeHtml(owners)}</div>
         </div>
         <div class="owner-row">
-          <span>备份: ${escapeHtml(d.backup || '待定')}</span>
+          <span>${escapeHtml(lblBackup)}: ${escapeHtml(d.backup || tbd)}</span>
         </div>
       </div>
     `;
@@ -144,7 +193,12 @@ function renderTypeStats(data) {
     counts[t.type] = (counts[t.type] || 0) + 1;
   });
 
-  const typeLabels = { xlsx: 'Excel', docx: 'Word', md: 'Markdown' };
+  // v2.1.1: type labels via i18n (with Chinese fallback)
+  const typeLabels = {
+    xlsx: t('type.excel', 'Excel'),
+    docx: t('type.word', 'Word'),
+    md:   t('type.markdown', 'Markdown'),
+  };
   const typeIcons = { xlsx: 'i-excel', docx: 'i-word', md: 'i-md' };
   const total = templates.templates.length;
 
@@ -161,7 +215,7 @@ function renderTypeStats(data) {
       <div class="icon">${iconSvg(it.icon)}</div>
       <div>
         <div class="value">${it.count}</div>
-        <div class="label">${it.label} · ${it.pct}%</div>
+        <div class="label">${escapeHtml(it.label)} · ${it.pct}%</div>
       </div>
     </div>
   `).join('');
@@ -174,10 +228,13 @@ function renderDataFreshness(data) {
   const genDate = new Date(genAt);
   if (isNaN(genDate.getTime())) return;
   const days = Math.floor((Date.now() - genDate.getTime()) / (24 * 60 * 60 * 1000));
-  const subtitle = document.querySelector('.page-header .subtitle');
-  if (!subtitle) return;
+  // v2.1.1: write to dedicated #freshness-slot so i18n.apply() won't wipe it
+  const slot = document.getElementById('freshness-slot');
+  if (!slot) return;
   const cls = days <= 7 ? 'fresh' : days <= 30 ? 'stale' : 'very-stale';
-  const label = days === 0 ? '今日更新' : days === 1 ? '1 天前更新' : `${days} 天前更新`;
-  const chip = `<span class="data-freshness ${cls}">${iconSvg('i-clock')} ${label}</span>`;
-  subtitle.insertAdjacentHTML('beforeend', ' · ' + chip);
+  let label;
+  if (days === 0) label = t('freshness.today', '今日更新');
+  else if (days === 1) label = t('freshness.day_ago', '1 天前更新');
+  else label = t('freshness.days_ago', '{N} 天前更新', { N: days });
+  slot.innerHTML = ' · <span class="data-freshness ' + cls + '">' + iconSvg('i-clock') + ' ' + escapeHtml(label) + '</span>';
 }

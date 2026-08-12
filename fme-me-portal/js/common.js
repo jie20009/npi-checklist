@@ -15,10 +15,10 @@ const PHASE_COLORS = {
 };
 
 const STATUS_MAP = {
-  'active':    { class: 'active',    label: '活跃' },
-  'warning':    { class: 'warning',   label: '待办' },
-  'pending':    { class: 'pending',   label: '阻塞' },
-  'planning':   { class: 'planning',  label: '规划中' },
+  'active':    { class: 'active',    i18n: 'status.active',    zh: '活跃' },
+  'warning':   { class: 'warning',   i18n: 'status.warning',   zh: '待办' },
+  'pending':   { class: 'pending',   i18n: 'status.pending',   zh: '阻塞' },
+  'planning':  { class: 'planning',  i18n: 'status.planning',  zh: '规划中' },
 };
 
 function getPhaseColor(phase) {
@@ -31,7 +31,26 @@ function getStatusInfo(status) {
 
 function getStatusDot(status) {
   const info = getStatusInfo(status);
-  return `<span class="status-dot ${info.class}">${info.label}</span>`;
+  const label = t(info.i18n, info.zh);
+  return `<span class="status-dot ${info.class}">${escapeHtml(label)}</span>`;
+}
+
+/**
+ * Global i18n helper. Uses window.App.I18n if available; falls back to
+ * the provided fallback string. Call from any page script.
+ *   t('kpi.domains', '管理域')
+ */
+function t(key, fallback, vars) {
+  if (window.App && window.App.I18n && typeof window.App.I18n.t === 'function') {
+    const result = window.App.I18n.t(key, vars);
+    if (result !== undefined && result !== null && result !== '') return result;
+  }
+  // Fallback may itself contain {N}-style placeholders
+  let s = fallback || key;
+  if (vars && s) {
+    Object.keys(vars).forEach(k => { s = s.replace('{' + k + '}', String(vars[k])); });
+  }
+  return s;
 }
 
 function getDomainColor(domains, domainId) {
@@ -46,11 +65,14 @@ function getDomainTint(color) {
 
 async function loadData() {
   try {
+    // v2.1.1: cache:'no-cache' ensures we get the latest JSON (especially
+    // important for i18n language data and domain descriptions that ship
+    // with the portal). Browser still caches but always revalidates.
     const [statsRes, domainsRes, coursesRes, templatesRes] = await Promise.all([
-      fetch('data/stats.json'),
-      fetch('data/domains.json'),
-      fetch('data/courses.json'),
-      fetch('data/templates.json'),
+      fetch('data/stats.json', { cache: 'no-cache' }),
+      fetch('data/domains.json', { cache: 'no-cache' }),
+      fetch('data/courses.json', { cache: 'no-cache' }),
+      fetch('data/templates.json', { cache: 'no-cache' }),
     ]);
     if (!statsRes.ok || !domainsRes.ok || !coursesRes.ok || !templatesRes.ok) {
       throw new Error('Failed to load one or more JSON files');

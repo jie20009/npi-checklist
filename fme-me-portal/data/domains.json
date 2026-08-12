@@ -15,7 +15,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "项目立项、DRI 跟踪、文件夹结构规范"
+      "description": "项目立项、DRI 跟踪、文件夹结构规范",
+      "description_en": "Project setup, DRI tracking, folder structure standards",
+      "description_vi": "Thiết lập dự án, theo dõi DRI, tiêu chuẩn cấu trúc thư mục"
     },
     {
       "id": "M02",
@@ -28,7 +30,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "所有模板的版本/Owner/路径登记"
+      "description": "所有模板的版本/Owner/路径登记",
+      "description_en": "Version/Owner/path registry for all templates",
+      "description_vi": "Sổ đăng ký phiên bản/Owner/đường dẫn cho tất cả biểu mẫu"
     },
     {
       "id": "M03",
@@ -42,7 +46,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "日报、月度质量看板（FCI/SAT/SPC/Scrap/OQC/IQC）"
+      "description": "日报、月度质量看板（FCI/SAT/SPC/Scrap/OQC/IQC）",
+      "description_en": "Daily reports, monthly quality dashboard (FCI/SAT/SPC/Scrap/OQC/IQC)",
+      "description_vi": "Báo cáo hàng ngày, bảng chất lượng tháng (FCI/SAT/SPC/Scrap/OQC/IQC)"
     },
     {
       "id": "M04",
@@ -56,7 +62,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "L1-L4 异常分级、登记台账、处理流程"
+      "description": "L1-L4 异常分级、登记台账、处理流程",
+      "description_en": "L1-L4 abnormal grading, registry ledger, handling process",
+      "description_vi": "Phân loại bất thường L1-L4, sổ đăng ký, quy trình xử lý"
     },
     {
       "id": "M05",
@@ -70,7 +78,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "月度改善报告、效果验证表"
+      "description": "月度改善报告、效果验证表",
+      "description_en": "Monthly improvement report, effectiveness verification form",
+      "description_vi": "Báo cáo cải tiến tháng, bảng xác nhận hiệu quả"
     },
     {
       "id": "M06",
@@ -84,7 +94,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "ME 技能矩阵、周报"
+      "description": "ME 技能矩阵、周报",
+      "description_en": "ME skill matrix, weekly report",
+      "description_vi": "Ma trận kỹ năng ME, báo cáo tuần"
     },
     {
       "id": "M07",
@@ -99,7 +111,9 @@
       "owner": "",
       "backup": "",
       "status": "active",
-      "description": "IDL 新人训练计划、73 门培训资料汇总、培训认证记录"
+      "description": "IDL 新人训练计划、73 门培训资料汇总、培训认证记录",
+      "description_en": "IDL newcomer training plan, 73 training materials summary, certification records",
+      "description_vi": "Kế hoạch đào tạo IDL mới, tổng hợp 73 tài liệu đào tạo, hồ sơ chứng nhận"
     },
     {
       "id": "M08",
@@ -114,7 +128,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "季度个人报告命名规范、PPT 结构、例会纪要"
+      "description": "季度个人报告命名规范、PPT 结构、例会纪要",
+      "description_en": "Quarterly personal report naming convention, PPT structure, meeting minutes",
+      "description_vi": "Quy ước đặt tên báo cáo cá nhân quý, cấu trúc PPT, biên bản họp"
     },
     {
       "id": "M09",
@@ -127,7 +143,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "6 个技术主题登记（螺丝/镭雕/点胶/LCM/取样/ME）"
+      "description": "6 个技术主题登记（螺丝/镭雕/点胶/LCM/取样/ME）",
+      "description_en": "6 technical topics registry (screw/laser marking/dispensing/LCM/sampling/ME)",
+      "description_vi": "Sổ đăng ký 6 chủ đề kỹ thuật (vít/khắc laser/phân phối/LCM/lấy mẫu/ME)"
     },
     {
       "id": "M10",
@@ -140,7 +158,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "13 条线 AI/AOI 失检率、误判率看板"
+      "description": "13 条线 AI/AOI 失检率、误判率看板",
+      "description_en": "AI/AOI miss-rate and false-alarm rate dashboard for 13 lines",
+      "description_vi": "Bảng tỷ lệ bỏ sót và báo sai AI/AOI cho 13 dòng"
     },
     {
       "id": "M11",
@@ -154,7 +174,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "G0-G4 StageGate 清单、NPI 工时表"
+      "description": "G0-G4 StageGate 清单、NPI 工时表",
+      "description_en": "G0-G4 StageGate checklist, NPI labor-hour table",
+      "description_vi": "Danh sách StageGate G0-G4, bảng giờ công NPI"
     },
     {
       "id": "M12",
@@ -167,7 +189,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "参考资源登记（Assembly/Packing/SOP/中文资料等）"
+      "description": "参考资源登记（Assembly/Packing/SOP/中文资料等）",
+      "description_en": "Reference resources registry (Assembly/Packing/SOP/Chinese docs, etc.)",
+      "description_vi": "Sổ đăng ký tài liệu tham khảo (Assembly/Packing/SOP/tài liệu tiếng Trung, v.v.)"
     },
     {
       "id": "M13",
@@ -181,7 +205,9 @@
       "owner": "",
       "backup": "",
       "status": "planning",
-      "description": "设备点检表、治具参数表"
+      "description": "设备点检表、治具参数表",
+      "description_en": "Equipment inspection sheet, fixture parameter table",
+      "description_vi": "Bảng kiểm tra thiết bị, bảng thông số fixture"
     }
   ]
 }

@@ -421,9 +421,15 @@
       await this.loadPack(this.current);
       // Apply once on DOM ready
       if (document.readyState === 'loading') {
-        document.addEventListener('DOMContentLoaded', () => this.apply());
+        document.addEventListener('DOMContentLoaded', () => {
+          this.apply();
+          // v2.1.1: notify page scripts that the initial language pack is loaded,
+          // so they can re-render dynamic content that was rendered before pack load.
+          document.dispatchEvent(new CustomEvent('i18n:changed', { detail: { lang: this.current } }));
+        });
       } else {
         this.apply();
+        document.dispatchEvent(new CustomEvent('i18n:changed', { detail: { lang: this.current } }));
       }
     },
 
@@ -440,7 +446,8 @@
 
     t(key, vars) {
       const pack = this.packs[this.current] || {};
-      let s = pack[key] || key;
+      let s = pack[key];
+      if (s === undefined) return undefined;  // signal "not found" → caller uses fallback
       if (vars) {
         Object.keys(vars).forEach(k => { s = s.replace('{' + k + '}', String(vars[k])); });
       }
@@ -448,20 +455,29 @@
     },
 
     apply() {
-      // Swap text content of [data-i18n] elements
+      // Swap text content of [data-i18n] elements (skip if no translation found)
       document.querySelectorAll('[data-i18n]').forEach(el => {
         const key = el.getAttribute('data-i18n');
-        if (key) el.textContent = this.t(key);
+        if (key) {
+          const result = this.t(key);
+          if (result !== undefined && result !== null) el.textContent = result;
+        }
       });
       // Swap placeholders of [data-i18n-ph] elements
       document.querySelectorAll('[data-i18n-ph]').forEach(el => {
         const key = el.getAttribute('data-i18n-ph');
-        if (key) el.placeholder = this.t(key);
+        if (key) {
+          const result = this.t(key);
+          if (result !== undefined && result !== null) el.placeholder = result;
+        }
       });
       // Swap titles of [data-i18n-title] elements
       document.querySelectorAll('[data-i18n-title]').forEach(el => {
         const key = el.getAttribute('data-i18n-title');
-        if (key) el.title = this.t(key);
+        if (key) {
+          const result = this.t(key);
+          if (result !== undefined && result !== null) el.title = result;
+        }
       });
       // Document language attribute
       document.documentElement.setAttribute('lang', this.current);
@@ -473,6 +489,8 @@
       localStorage.setItem(this.KEY, lang);
       await this.loadPack(lang);
       this.apply();
+      // v2.1.1: notify page scripts so they can re-render dynamic content
+      document.dispatchEvent(new CustomEvent('i18n:changed', { detail: { lang } }));
       // Update active state on the switcher
       this.updateSwitcherUI();
     },
