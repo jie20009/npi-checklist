@@ -1,5 +1,6 @@
 /* ============================================================
  * FME-ME Portal v1.0 — Training Page Logic
+ * v2.1.1: i18n support (zh/vi/en) via t() + i18n:changed re-render
  * ============================================================ */
 
 let allCourses = [];
@@ -14,8 +15,8 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Breadcrumb
   const bcSlot = document.getElementById('breadcrumb-slot');
   if (bcSlot) bcSlot.innerHTML = renderBreadcrumb([
-    { label: '首页', href: 'index.html' },
-    { label: '培训', href: 'training.html' }
+    { label: t('breadcrumb.home', '首页'), href: 'index.html' },
+    { label: t('breadcrumb.training', '培训'), href: 'training.html' }
   ]);
 
   const grid = document.getElementById('course-grid');
@@ -23,7 +24,7 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   const data = await loadData();
   if (!data) {
-    grid.innerHTML = '<div class="error">数据加载失败</div>';
+    grid.innerHTML = `<div class="error">${t('error.data.load.simple', '数据加载失败')}</div>`;
     return;
   }
 
@@ -44,6 +45,17 @@ document.addEventListener('DOMContentLoaded', async () => {
     activeExam = '';
     renderSidebarFilters();
     renderPhasePills();
+    renderCourses();
+  });
+
+  // v2.1.1: re-render on language change
+  document.addEventListener('i18n:changed', () => {
+    if (bcSlot) bcSlot.innerHTML = renderBreadcrumb([
+      { label: t('breadcrumb.home', '首页'), href: 'index.html' },
+      { label: t('breadcrumb.training', '培训'), href: 'training.html' }
+    ]);
+    renderPhasePills();
+    renderSidebarFilters();
     renderCourses();
   });
 });
@@ -84,11 +96,12 @@ function renderSidebarFilters() {
   allCourses.forEach(c => { counts[c.phase] = (counts[c.phase] || 0) + 1; });
 
   const phaseBox = document.getElementById('phase-filter');
+  const allLabel = t('action.all', '全部');
   phaseBox.innerHTML = `
     <div class="phase-item" data-phase="ALL" style="${activePhases.size === 0 ? 'font-weight:600;color:var(--primary);' : ''}">
       <div class="left">
         <div class="color-dot" style="background:var(--primary);"></div>
-        <label>全部</label>
+        <label>${escapeHtml(allLabel)}</label>
       </div>
       <span class="count">${allCourses.length}</span>
     </div>
@@ -122,11 +135,11 @@ function renderSidebarFilters() {
     });
   });
 
-  const exams = [...new Set(allCourses.map(c => c.exam_method || '未知').filter(Boolean))];
+  const exams = [...new Set(allCourses.map(c => c.exam_method || t('state.unknown', '未知')).filter(Boolean))];
   const examBox = document.getElementById('exam-filter');
   examBox.innerHTML = `
     <div class="phase-item" data-exam="" style="${!activeExam ? 'font-weight:600;color:var(--primary);' : ''}">
-      <div class="left"><label>全部</label></div>
+      <div class="left"><label>${escapeHtml(allLabel)}</label></div>
     </div>
     ${exams.map(e => `
       <div class="phase-item" data-exam="${escapeHtml(e)}" style="${activeExam === e ? 'font-weight:600;color:var(--primary);' : ''}">
@@ -156,13 +169,18 @@ function renderCourses() {
   });
 
   const meta = document.getElementById('result-meta');
-  meta.textContent = `共 ${filtered.length} 门课程`;
+  meta.textContent = t('course.count', '共 {N} 门课程', { N: filtered.length });
 
   const grid = document.getElementById('course-grid');
   if (filtered.length === 0) {
-    grid.innerHTML = '<div class="empty-state"><div class="icon">📭</div><div class="text">无匹配课程</div></div>';
+    grid.innerHTML = `<div class="empty-state"><div class="icon">📭</div><div class="text">${escapeHtml(t('state.empty.courses', '无匹配课程'))}</div></div>`;
     return;
   }
+
+  const openLabel = t('action.open', '📂 打开');
+  const openTitle = t('action.open.title', '点击打开文件（仅本地访问有效；在线版会被浏览器拦截，请改用「复制路径」）');
+  const copyLabel = t('action.copy.path', '复制路径');
+  const noTitle = t('state.no_title', '无标题');
 
   grid.innerHTML = filtered.map(c => {
     const pc = getPhaseColor(c.phase);
@@ -173,7 +191,7 @@ function renderCourses() {
         <div class="header">
           <div class="title-row">
             <span class="course-id">${escapeHtml(c.course_id || '')}</span>
-            <span class="title">${escapeHtml(c.title || '无标题')}</span>
+            <span class="title">${escapeHtml(c.title || noTitle)}</span>
             <span class="phase-tag">${escapeHtml(c.phase)}</span>
           </div>
         </div>
@@ -184,8 +202,8 @@ function renderCourses() {
         </div>
         <div class="path-row">
           <span class="path-text">${escapeHtml(path)}</span>
-          ${fileUrl ? `<a href="${fileUrl}" class="open-btn" target="_blank" rel="noopener" title="点击打开文件（仅本地访问有效；在线版会被浏览器拦截，请改用「复制路径」）">📂 打开</a>` : ''}
-          <button class="copy-btn" data-path="${escapeHtml(path)}">复制路径</button>
+          ${fileUrl ? `<a href="${fileUrl}" class="open-btn" target="_blank" rel="noopener" title="${escapeHtml(openTitle)}">${escapeHtml(openLabel)}</a>` : ''}
+          <button class="copy-btn" data-path="${escapeHtml(path)}">${escapeHtml(copyLabel)}</button>
         </div>
       </div>
     `;
@@ -196,10 +214,10 @@ function renderCourses() {
       const ok = await copyToClipboard(btn.dataset.path);
       if (ok) {
         btn.classList.add('copied');
-        btn.textContent = '已复制';
-        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = '复制路径'; }, 1500);
+        btn.textContent = t('action.copied', '已复制');
+        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = t('action.copy.path', '复制路径'); }, 1500);
       } else {
-        showToast('复制失败', 1500);
+        showToast(t('action.copy.failed', '复制失败'), 1500);
       }
     });
   });

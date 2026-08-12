@@ -1,8 +1,8 @@
-/* FME-ME Portal v2.1.1 — Service Worker
+/* FME-ME Portal v2.1.2 — Service Worker
    Network-first for HTML (so deployments appear instantly),
    stale-while-revalidate for JS/CSS, network-first for data JSON. */
 
-const CACHE_VERSION = 'fme-v2.1.1';
+const CACHE_VERSION = 'fme-v2.1.2';
 const ASSETS = [
   './',
   './index.html',

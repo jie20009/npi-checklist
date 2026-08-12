@@ -1,6 +1,7 @@
 /* ============================================================
  * FME-ME Portal v2.0 — Templates Page Logic
  * v2.0: Adds "填写" button for form-fillable xlsx templates
+ * v2.1.1: i18n support (zh/vi/en) via t() + i18n:changed re-render
  * ============================================================ */
 
 // Templates that have a JSON schema in schemas/ directory → form-fillable
@@ -22,16 +23,16 @@ document.addEventListener('DOMContentLoaded', async () => {
   // Breadcrumb
   const bcSlot = document.getElementById('breadcrumb-slot');
   if (bcSlot) bcSlot.innerHTML = renderBreadcrumb([
-    { label: '首页', href: 'index.html' },
-    { label: '模板库', href: 'templates.html' }
+    { label: t('breadcrumb.home', '首页'), href: 'index.html' },
+    { label: t('breadcrumb.templates', '模板库'), href: 'templates.html' }
   ]);
 
   const tbody = document.getElementById('tpl-tbody');
-  tbody.innerHTML = `<tr><td colspan="7" class="loading-row">加载中…</td></tr>`;
+  tbody.innerHTML = `<tr><td colspan="7" class="loading-row">${escapeHtml(t('state.loading', '加载中…'))}</td></tr>`;
 
   const data = await loadData();
   if (!data) {
-    tbody.innerHTML = `<tr><td colspan="7" class="error-row">数据加载失败</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="error-row">${escapeHtml(t('error.data.load.simple', '数据加载失败'))}</td></tr>`;
     return;
   }
 
@@ -68,6 +69,15 @@ document.addEventListener('DOMContentLoaded', async () => {
     tplType = e.target.value;
     renderTemplates();
   });
+
+  // v2.1.1: re-render on language change
+  document.addEventListener('i18n:changed', () => {
+    if (bcSlot) bcSlot.innerHTML = renderBreadcrumb([
+      { label: t('breadcrumb.home', '首页'), href: 'index.html' },
+      { label: t('breadcrumb.templates', '模板库'), href: 'templates.html' }
+    ]);
+    renderTemplates();
+  });
 });
 
 function renderTemplates() {
@@ -83,44 +93,54 @@ function renderTemplates() {
 
   // v2.0: Count form-fillable templates
   const fillableCount = filtered.filter(t => FORM_FILLABLE.has(t.id)).length;
-  document.getElementById('tpl-result-meta').innerHTML =
-    `共 ${filtered.length} 个模板 · <span class="fillable-count">${fillableCount} 个可在线填写</span>`;
+  const metaEl = document.getElementById('tpl-result-meta');
+  if (metaEl) {
+    metaEl.innerHTML =
+      `${escapeHtml(t('template.count', '共 {N} 个模板', { N: filtered.length }))} · ` +
+      `<span class="fillable-count">${escapeHtml(t('template.fillable.count', '{N} 个可在线填写', { N: fillableCount }))}</span>`;
+  }
 
   const tbody = document.getElementById('tpl-tbody');
   if (filtered.length === 0) {
-    tbody.innerHTML = `<tr><td colspan="7" class="empty-row">无匹配模板</td></tr>`;
+    tbody.innerHTML = `<tr><td colspan="7" class="empty-row">${escapeHtml(t('state.empty.templates', '无匹配模板'))}</td></tr>`;
     return;
   }
 
-  tbody.innerHTML = filtered.map(t => {
-    const domain = allDomains.find(d => d.id === t.domain);
+  const fillLabel = t('action.fill', '填写');
+  const fillTitle = t('action.fillable.title', '可在线填写');
+  const openLabel = t('action.open', '📂 打开');
+  const openTitle = t('action.open.title', '点击打开文件（仅本地访问有效；在线版会被浏览器拦截，请改用「复制路径」）');
+  const copyLabel = t('action.copy.path', '复制路径');
+
+  tbody.innerHTML = filtered.map(item => {
+    const domain = allDomains.find(d => d.id === item.domain);
     const dColor = domain ? domain.color : '#1F4E78';
     const dTint = dColor + '20';
-    const typeLabel = { xlsx: 'Excel', docx: 'Word', md: 'MD' }[t.type] || t.type;
-    const typeIcon = { xlsx: 'i-excel', docx: 'i-word', md: 'i-md' }[t.type] || 'i-file';
-    const localPath = t.local_path || t.file || '';
-    const isFillable = FORM_FILLABLE.has(t.id);
+    const typeLabel = { xlsx: t('type.excel', 'Excel'), docx: t('type.word', 'Word'), md: t('type.markdown', 'MD') }[item.type] || item.type;
+    const typeIcon = { xlsx: 'i-excel', docx: 'i-word', md: 'i-md' }[item.type] || 'i-file';
+    const localPath = item.local_path || item.file || '';
+    const isFillable = FORM_FILLABLE.has(item.id);
     const fileUrl = pathToFileUrl(localPath);
     return `
       <tr>
         <td class="id-cell">
-          ${escapeHtml(t.id)}
-          ${isFillable ? '<span class="fillable-badge" title="可在线填写">✏</span>' : ''}
+          ${escapeHtml(item.id)}
+          ${isFillable ? `<span class="fillable-badge" title="${escapeHtml(fillTitle)}">✏</span>` : ''}
         </td>
         <td class="name-cell">
-          <div class="name-cn">${escapeHtml(t.name)}</div>
-          ${t.name_en ? `<div class="name-en">${escapeHtml(t.name_en)}</div>` : ''}
+          <div class="name-cn">${escapeHtml(item.name)}</div>
+          ${item.name_en ? `<div class="name-en">${escapeHtml(item.name_en)}</div>` : ''}
         </td>
         <td>
-          <span class="domain-badge" style="--domain-color:${dColor};--domain-tint:${dTint};">${escapeHtml(t.domain)}</span>
+          <span class="domain-badge" style="--domain-color:${dColor};--domain-tint:${dTint};">${escapeHtml(item.domain)}</span>
         </td>
-        <td class="type-cell"><svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#${typeIcon}"/></svg> ${typeLabel}</td>
-        <td class="purpose-cell" title="${escapeHtml(t.purpose || '')}">${escapeHtml(t.purpose || '—')}</td>
-        <td>${formatFileSize(t.file_size)}</td>
+        <td class="type-cell"><svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#${typeIcon}"/></svg> ${escapeHtml(typeLabel)}</td>
+        <td class="purpose-cell" title="${escapeHtml(item.purpose || '')}">${escapeHtml(item.purpose || '—')}</td>
+        <td>${formatFileSize(item.file_size)}</td>
         <td class="action-cell">
-          ${isFillable ? `<a href="form.html?t=${encodeURIComponent(t.id)}" class="fill-btn">填写</a>` : ''}
-          ${fileUrl ? `<a href="${fileUrl}" class="open-btn" target="_blank" rel="noopener" title="点击打开文件（仅本地访问有效；在线版会被浏览器拦截，请改用「复制路径」）">📂 打开</a>` : ''}
-          <button class="copy-btn" data-path="${escapeHtml(localPath)}">复制路径</button>
+          ${isFillable ? `<a href="form.html?t=${encodeURIComponent(item.id)}" class="fill-btn">${escapeHtml(fillLabel)}</a>` : ''}
+          ${fileUrl ? `<a href="${fileUrl}" class="open-btn" target="_blank" rel="noopener" title="${escapeHtml(openTitle)}">${escapeHtml(openLabel)}</a>` : ''}
+          <button class="copy-btn" data-path="${escapeHtml(localPath)}">${escapeHtml(copyLabel)}</button>
         </td>
       </tr>
     `;
@@ -131,11 +151,10 @@ function renderTemplates() {
       const ok = await copyToClipboard(btn.dataset.path);
       if (ok) {
         btn.classList.add('copied');
-        const original = btn.textContent;
-        btn.textContent = '已复制';
-        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = original; }, 1500);
+        btn.textContent = t('action.copied', '已复制');
+        setTimeout(() => { btn.classList.remove('copied'); btn.textContent = t('action.copy.path', '复制路径'); }, 1500);
       } else {
-        showToast('复制失败', 1500);
+        showToast(t('action.copy.failed', '复制失败'), 1500);
       }
     });
   });

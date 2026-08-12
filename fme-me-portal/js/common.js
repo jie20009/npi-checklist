@@ -102,7 +102,7 @@ function renderTopNav(activePage) {
   nav.innerHTML = `
     <div class="brand">FME-ME</div>
     <nav class="nav-links">${links}</nav>
-    <div class="last-updated">v2.1.1 · 2026-08-12</div>
+    <div class="last-updated">v2.1.2 · 2026-08-12</div>
   `;
 }
 
@@ -110,7 +110,7 @@ function renderFooter() {
   const footer = document.querySelector('.footer');
   if (!footer) return;
   footer.innerHTML = `
-    © 2026 Pegatron BU6 FME-ME ｜ 数据源：网络共享盘 ｜ 静态看板 v2.1.1
+    © 2026 Pegatron BU6 FME-ME ｜ 数据源：网络共享盘 ｜ 静态看板 v2.1.2
   `;
 }
 
