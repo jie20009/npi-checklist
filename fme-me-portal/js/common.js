@@ -70,17 +70,17 @@ function renderTopNav(activePage) {
   const nav = document.querySelector('.top-nav');
   if (!nav) return;
   const pages = [
-    { id: 'overview', href: 'index.html', label: '总览' },
-    { id: 'training', href: 'training.html', label: '培训' },
-    { id: 'templates', href: 'templates.html', label: '模板' },
+    { id: 'overview', href: 'index.html', label: '总览', i18n: 'nav.overview' },
+    { id: 'training', href: 'training.html', label: '培训', i18n: 'nav.training' },
+    { id: 'templates', href: 'templates.html', label: '模板', i18n: 'nav.templates' },
   ];
   const links = pages.map(p =>
-    `<a href="${p.href}" class="${p.id === activePage ? 'active' : ''}">${p.label}</a>`
+    `<a href="${p.href}" class="${p.id === activePage ? 'active' : ''}" data-i18n="${p.i18n}">${p.label}</a>`
   ).join('');
   nav.innerHTML = `
-    <div class="brand">FME-ME 管理体系</div>
+    <div class="brand">FME-ME</div>
     <nav class="nav-links">${links}</nav>
-    <div class="last-updated">v1.0 · 2026-07-25</div>
+    <div class="last-updated">v2.1.1 · 2026-08-12</div>
   `;
 }
 
@@ -88,7 +88,7 @@ function renderFooter() {
   const footer = document.querySelector('.footer');
   if (!footer) return;
   footer.innerHTML = `
-    © 2026 Pegatron BU6 FME-ME ｜ 数据源：网络共享盘 ｜ 静态看板 v1.0
+    © 2026 Pegatron BU6 FME-ME ｜ 数据源：网络共享盘 ｜ 静态看板 v2.1.1
   `;
 }
 

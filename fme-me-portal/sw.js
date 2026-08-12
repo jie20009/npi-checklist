@@ -1,8 +1,8 @@
-/* FME-ME Portal v2.1 — Service Worker
-   Cache-first for static assets, network-first for data JSON.
-   Strategy: stale-while-revalidate for everything. */
+/* FME-ME Portal v2.1.1 — Service Worker
+   Network-first for HTML (so deployments appear instantly),
+   stale-while-revalidate for JS/CSS, network-first for data JSON. */
 
-const CACHE_VERSION = 'fme-v2.1';
+const CACHE_VERSION = 'fme-v2.1.1';
 const ASSETS = [
   './',
   './index.html',
@@ -27,7 +27,8 @@ const ASSETS = [
   './data/stats.json',
   './data/domains.json',
   './data/courses.json',
-  './data/templates.json'
+  './data/templates.json',
+  './data/i18n.json'
 ];
 
 self.addEventListener('install', (event) => {
@@ -65,7 +66,19 @@ self.addEventListener('fetch', (event) => {
     return;
   }
 
-  // Stale-while-revalidate for everything else
+  // Network-first for HTML pages (so new deployments appear on next refresh)
+  if (req.mode === 'navigate' || url.pathname.endsWith('.html')) {
+    event.respondWith(
+      fetch(req).then((res) => {
+        const copy = res.clone();
+        caches.open(CACHE_VERSION).then((cache) => cache.put(req, copy));
+        return res;
+      }).catch(() => caches.match(req).then((r) => r || caches.match('./index.html')))
+    );
+    return;
+  }
+
+  // Stale-while-revalidate for JS/CSS/icons/etc.
   event.respondWith(
     caches.match(req).then((cached) => {
       const fetchPromise = fetch(req).then((res) => {

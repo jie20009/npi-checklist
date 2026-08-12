@@ -324,17 +324,17 @@
       const actions = document.createElement('div');
       actions.className = 'nav-actions';
       actions.innerHTML = `
-        <button class="cmd-trigger" id="cmd-trigger" title="打开命令面板 (Ctrl+K)">
+        <button class="cmd-trigger" id="cmd-trigger" data-i18n-title="action.cmd.open" title="打开命令面板 (Ctrl+K)">
           <svg class="icon" viewBox="0 0 24 24"><use href="icons/icon.svg#i-search"/></svg>
-          <span>搜索</span>
+          <span data-i18n="nav.search">搜索</span>
           <kbd>Ctrl K</kbd>
         </button>
-        <div class="lang-switch" id="lang-switch" title="切换语言">
+        <div class="lang-switch" id="lang-switch" data-i18n-title="lang.switch.title" title="切换语言">
           <button class="lang-btn" data-lang="zh" type="button">中</button>
           <button class="lang-btn" data-lang="vi" type="button">Vi</button>
           <button class="lang-btn" data-lang="en" type="button">EN</button>
         </div>
-        <button class="nav-btn" data-theme-toggle title="切换深色模式">
+        <button class="nav-btn" data-theme-toggle data-i18n-title="nav.theme.toggle" title="切换深色模式">
           <svg class="icon icon-moon" viewBox="0 0 24 24"><use href="icons/icon.svg#i-moon"/></svg>
           <svg class="icon icon-sun" viewBox="0 0 24 24"><use href="icons/icon.svg#i-sun"/></svg>
         </button>
@@ -349,6 +349,10 @@
         btn.addEventListener('click', () => I18n.switch(btn.dataset.lang));
       });
       I18n.updateSwitcherUI();
+      // v2.1.1: re-apply i18n to translate newly injected nav-actions
+      if (I18n.packs && I18n.packs[I18n.current]) {
+        I18n.apply();
+      }
       const chip = nav.querySelector('#user-chip');
       if (chip) {
         chip.addEventListener('click', () => {

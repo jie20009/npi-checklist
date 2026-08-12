@@ -14,6 +14,8 @@
     "nav.user.unauth": "点击设置身份",
 
     "page.overview.title": "FME-ME 管理总览",
+    "page.overview.section.domains": "管理域状态",
+    "page.overview.section.templates": "模板类型分布",
     "page.training.title": "培训课程中心",
     "page.templates.title": "管理模板库",
     "page.form.title": "表单填写",
@@ -67,6 +69,8 @@
     "nav.user.unauth": "Bấm để thiết lập danh tính",
 
     "page.overview.title": "Tổng quan quản lý FME-ME",
+    "page.overview.section.domains": "Trạng thái lĩnh vực",
+    "page.overview.section.templates": "Phân bố biểu mẫu",
     "page.training.title": "Trung tâm đào tạo",
     "page.templates.title": "Thư viện biểu mẫu",
     "page.form.title": "Điền biểu mẫu",
@@ -120,6 +124,8 @@
     "nav.user.unauth": "Click to set identity",
 
     "page.overview.title": "FME-ME Management Overview",
+    "page.overview.section.domains": "Domain Status",
+    "page.overview.section.templates": "Template Distribution",
     "page.training.title": "Training Center",
     "page.templates.title": "Template Library",
     "page.form.title": "Fill Form",
