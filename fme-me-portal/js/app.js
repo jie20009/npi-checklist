@@ -329,6 +329,11 @@
           <span>搜索</span>
           <kbd>Ctrl K</kbd>
         </button>
+        <div class="lang-switch" id="lang-switch" title="切换语言">
+          <button class="lang-btn" data-lang="zh" type="button">中</button>
+          <button class="lang-btn" data-lang="vi" type="button">Vi</button>
+          <button class="lang-btn" data-lang="en" type="button">EN</button>
+        </div>
         <button class="nav-btn" data-theme-toggle title="切换深色模式">
           <svg class="icon icon-moon" viewBox="0 0 24 24"><use href="icons/icon.svg#i-moon"/></svg>
           <svg class="icon icon-sun" viewBox="0 0 24 24"><use href="icons/icon.svg#i-sun"/></svg>
@@ -339,6 +344,11 @@
       // Wire actions
       nav.querySelector('[data-theme-toggle]').addEventListener('click', () => Theme.toggle());
       nav.querySelector('#cmd-trigger').addEventListener('click', () => Palette.open());
+      // Language switcher
+      nav.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => I18n.switch(btn.dataset.lang));
+      });
+      I18n.updateSwitcherUI();
       const chip = nav.querySelector('#user-chip');
       if (chip) {
         chip.addEventListener('click', () => {
@@ -393,6 +403,84 @@
     }
   });
 
+  // ============ i18n (Language) ============
+  const I18n = {
+    KEY: 'fme_lang',
+    DEFAULT: 'zh',
+    SUPPORTED: ['zh', 'vi', 'en'],
+    packs: {},
+    current: null,
+
+    async init() {
+      const saved = localStorage.getItem(this.KEY);
+      this.current = (saved && this.SUPPORTED.includes(saved)) ? saved : this.DEFAULT;
+      await this.loadPack(this.current);
+      // Apply once on DOM ready
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', () => this.apply());
+      } else {
+        this.apply();
+      }
+    },
+
+    async loadPack(lang) {
+      if (this.packs[lang]) return;
+      try {
+        const res = await fetch('data/i18n.json');
+        if (res.ok) {
+          const data = await res.json();
+          if (data[lang]) this.packs[lang] = data[lang];
+        }
+      } catch (e) { /* offline — fall back to defaults */ }
+    },
+
+    t(key, vars) {
+      const pack = this.packs[this.current] || {};
+      let s = pack[key] || key;
+      if (vars) {
+        Object.keys(vars).forEach(k => { s = s.replace('{' + k + '}', String(vars[k])); });
+      }
+      return s;
+    },
+
+    apply() {
+      // Swap text content of [data-i18n] elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (key) el.textContent = this.t(key);
+      });
+      // Swap placeholders of [data-i18n-ph] elements
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.getAttribute('data-i18n-ph');
+        if (key) el.placeholder = this.t(key);
+      });
+      // Swap titles of [data-i18n-title] elements
+      document.querySelectorAll('[data-i18n-title]').forEach(el => {
+        const key = el.getAttribute('data-i18n-title');
+        if (key) el.title = this.t(key);
+      });
+      // Document language attribute
+      document.documentElement.setAttribute('lang', this.current);
+    },
+
+    async switch(lang) {
+      if (!this.SUPPORTED.includes(lang) || lang === this.current) return;
+      this.current = lang;
+      localStorage.setItem(this.KEY, lang);
+      await this.loadPack(lang);
+      this.apply();
+      // Update active state on the switcher
+      this.updateSwitcherUI();
+    },
+
+    updateSwitcherUI() {
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.lang === this.current);
+      });
+    }
+  };
+  I18n.init();
+
   // ============ Breadcrumb helper ============
   window.renderBreadcrumb = function (items) {
     const html = items.map((it, i) => {
@@ -426,5 +514,5 @@
   });
 
   // Export for use by page scripts
-  window.App = { Theme, Progress, User, Recent, Favorites, Palette };
+  window.App = { Theme, Progress, User, Recent, Favorites, Palette, I18n };
 })();
